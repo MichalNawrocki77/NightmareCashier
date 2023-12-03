@@ -23,7 +23,7 @@ public abstract class ItemSO : MonoBehaviour, IDragHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        eventData.pointerCurrentRaycast.gameObject
+       //eventData.pointerCurrentRaycast.gameObject;
         
     }
     
