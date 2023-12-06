@@ -24,7 +24,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""PlayerInGameWorld"",
+            ""name"": ""PlayerActionMap"",
             ""id"": ""2c1fddc6-7ba4-4754-aaa4-9f8cb73b14a7"",
             ""actions"": [
                 {
@@ -32,9 +32,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""f4e839d4-068a-4d2e-a884-165e3303a283"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""InvertVector2(invertY=false)"",
+                    ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""InteractionAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""88df4118-e177-4351-9c91-4dc18dca765f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -92,15 +101,27 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""MovementAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cadc0a1-9281-4774-acd1-9421dab01486"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractionAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // PlayerInGameWorld
-        m_PlayerInGameWorld = asset.FindActionMap("PlayerInGameWorld", throwIfNotFound: true);
-        m_PlayerInGameWorld_MovementAction = m_PlayerInGameWorld.FindAction("MovementAction", throwIfNotFound: true);
+        // PlayerActionMap
+        m_PlayerActionMap = asset.FindActionMap("PlayerActionMap", throwIfNotFound: true);
+        m_PlayerActionMap_MovementAction = m_PlayerActionMap.FindAction("MovementAction", throwIfNotFound: true);
+        m_PlayerActionMap_InteractionAction = m_PlayerActionMap.FindAction("InteractionAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -159,53 +180,62 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PlayerInGameWorld
-    private readonly InputActionMap m_PlayerInGameWorld;
-    private List<IPlayerInGameWorldActions> m_PlayerInGameWorldActionsCallbackInterfaces = new List<IPlayerInGameWorldActions>();
-    private readonly InputAction m_PlayerInGameWorld_MovementAction;
-    public struct PlayerInGameWorldActions
+    // PlayerActionMap
+    private readonly InputActionMap m_PlayerActionMap;
+    private List<IPlayerActionMapActions> m_PlayerActionMapActionsCallbackInterfaces = new List<IPlayerActionMapActions>();
+    private readonly InputAction m_PlayerActionMap_MovementAction;
+    private readonly InputAction m_PlayerActionMap_InteractionAction;
+    public struct PlayerActionMapActions
     {
         private @PlayerControls m_Wrapper;
-        public PlayerInGameWorldActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @MovementAction => m_Wrapper.m_PlayerInGameWorld_MovementAction;
-        public InputActionMap Get() { return m_Wrapper.m_PlayerInGameWorld; }
+        public PlayerActionMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MovementAction => m_Wrapper.m_PlayerActionMap_MovementAction;
+        public InputAction @InteractionAction => m_Wrapper.m_PlayerActionMap_InteractionAction;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerInGameWorldActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerInGameWorldActions instance)
+        public static implicit operator InputActionMap(PlayerActionMapActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerActionMapActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerInGameWorldActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerInGameWorldActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PlayerActionMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerActionMapActionsCallbackInterfaces.Add(instance);
             @MovementAction.started += instance.OnMovementAction;
             @MovementAction.performed += instance.OnMovementAction;
             @MovementAction.canceled += instance.OnMovementAction;
+            @InteractionAction.started += instance.OnInteractionAction;
+            @InteractionAction.performed += instance.OnInteractionAction;
+            @InteractionAction.canceled += instance.OnInteractionAction;
         }
 
-        private void UnregisterCallbacks(IPlayerInGameWorldActions instance)
+        private void UnregisterCallbacks(IPlayerActionMapActions instance)
         {
             @MovementAction.started -= instance.OnMovementAction;
             @MovementAction.performed -= instance.OnMovementAction;
             @MovementAction.canceled -= instance.OnMovementAction;
+            @InteractionAction.started -= instance.OnInteractionAction;
+            @InteractionAction.performed -= instance.OnInteractionAction;
+            @InteractionAction.canceled -= instance.OnInteractionAction;
         }
 
-        public void RemoveCallbacks(IPlayerInGameWorldActions instance)
+        public void RemoveCallbacks(IPlayerActionMapActions instance)
         {
-            if (m_Wrapper.m_PlayerInGameWorldActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PlayerActionMapActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerInGameWorldActions instance)
+        public void SetCallbacks(IPlayerActionMapActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerInGameWorldActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PlayerActionMapActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerInGameWorldActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PlayerActionMapActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerInGameWorldActions @PlayerInGameWorld => new PlayerInGameWorldActions(this);
-    public interface IPlayerInGameWorldActions
+    public PlayerActionMapActions @PlayerActionMap => new PlayerActionMapActions(this);
+    public interface IPlayerActionMapActions
     {
         void OnMovementAction(InputAction.CallbackContext context);
+        void OnInteractionAction(InputAction.CallbackContext context);
     }
 }
