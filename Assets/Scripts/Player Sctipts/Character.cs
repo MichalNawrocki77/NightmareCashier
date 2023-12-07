@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class Character : MonoBehaviour
 
     #region Checkout Interaction
 
+    public Action InteractionPressed;
     public Checkout CurrentCheckout { private get; set; }
 
     #endregion
@@ -36,7 +38,19 @@ public class Character : MonoBehaviour
 
     private void InteractionAction_performed(CallbackContext obj)
     {
-        CurrentCheckout.Interact();
+        //I know I can do the same by calling InteractionPressed?.Invoke() but I really want to have an error in the console when it reads a null, will help with future debugging
+        if (InteractionPressed != null)
+        {
+            InteractionPressed.Invoke();
+            return;
+        }
+        Debug.Log("InteractionPressed jest NULL!!!");
+
+    }
+    public void DisableMovement()
+    {
+        Input.PlayerActionMap.MovementAction.Disable();
+        movementVector = Vector2.zero;
     }
 
     // Start is called before the first frame update
@@ -52,7 +66,7 @@ public class Character : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = movementVector;
+        rb.velocity = movementVector * 4f;
     }
 
     void ReadMovementInput(CallbackContext obj)
