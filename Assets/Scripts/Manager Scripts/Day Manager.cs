@@ -17,7 +17,7 @@ public class DayManager : Singleton<DayManager>
              "DO NOT CHANGE THE ORDER!!!")]
     public List<byte> chancesOfInteractionOccuring;
 
-    public List<ItemSO> products;
+    public List<GameObject> products;
 
     private void Start()
     {

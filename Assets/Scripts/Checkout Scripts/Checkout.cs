@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Checkout : MonoBehaviour
 {
     Customer customerCurrent;
-    [SerializeField] Character playerScript;
+    [SerializeField] Player playerScript;
 
     [SerializeField] List<GameObject> interactions;
     GameObject interactionCurrent;
+    Interaction interactionScript;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +29,9 @@ public class Checkout : MonoBehaviour
     }
     public void StartInteraction()
     {
-        interactionCurrent = Instantiate(interactions[ChooseInteraction()]);
+        interactionCurrent = Instantiate(interactions[0]);
+        interactionCurrent.GetComponentInChildren<Interaction>().
+                           InjectDependencies(customerCurrent,playerScript);
 
         playerScript.InteractionPressed -= StartInteraction;
         playerScript.DisableMovement();
@@ -57,6 +60,7 @@ public class Checkout : MonoBehaviour
         if (collision.CompareTag("Customer"))
         {
             customerCurrent = collision.gameObject.GetComponent<Customer>();
+            Debug.Log(customerCurrent.name);
         }
         if (collision.CompareTag("Player"))
         {
@@ -75,6 +79,12 @@ public class Checkout : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.CompareTag("Customer"))
+        {
+            customerCurrent = null;
+            Debug.Log("No Peta :(");
+        }
+
         if (collision.CompareTag("Player"))
         {
             playerScript.InteractionPressed -= StartInteraction;

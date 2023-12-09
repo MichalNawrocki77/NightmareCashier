@@ -5,7 +5,7 @@ using UnityEngine;
 
 using static UnityEngine.InputSystem.InputAction;
 
-public class Character : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public PlayerControls Input { get; private set; }
 

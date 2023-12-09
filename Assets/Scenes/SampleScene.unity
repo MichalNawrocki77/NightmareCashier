@@ -1597,9 +1597,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chancesOfInteractionOccuring: 6400000000
   products:
-  - {fileID: 11400000, guid: cc84c1fc44a8e304d9d7eb8f983ec247, type: 2}
-  - {fileID: 11400000, guid: 9933952a756bc0246b8c15e714723823, type: 2}
-  - {fileID: 11400000, guid: 781e35263802c6147aaf5e9d222d2a1a, type: 2}
+  - {fileID: 8948150369648650343, guid: f52c9392b6762cc47bed1bb4bb278014, type: 3}
+  - {fileID: 8948150369648650343, guid: 181e1f69ab589aa41b139346fb9c5af2, type: 3}
+  - {fileID: 8948150369648650343, guid: 9ea24c3047a30a8439d22605b07e3b27, type: 3}
 --- !u!1 &333654748
 GameObject:
   m_ObjectHideFlags: 0
@@ -3974,9 +3974,10 @@ GameObject:
   - component: {fileID: 382731969}
   - component: {fileID: 382731968}
   - component: {fileID: 382731967}
+  - component: {fileID: 382731970}
   m_Layer: 0
-  m_Name: Pseudo customer
-  m_TagString: Untagged
+  m_Name: PEEETAAAA
+  m_TagString: Customer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4106,6 +4107,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &382731970
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382731965}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &483942331
 GameObject:
   m_ObjectHideFlags: 0
@@ -5791,7 +5819,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &867513479
 Transform:
   m_ObjectHideFlags: 0
@@ -6102,7 +6130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1519094384
 Transform:
   m_ObjectHideFlags: 0
@@ -6194,7 +6222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2043082173
 Transform:
   m_ObjectHideFlags: 0
