@@ -11,7 +11,7 @@ public class AgeVerificationInteraction : Interaction
     }
     void Start()
     {
-        foreach (GameObject item in base.customer.items)
+        foreach (GameObject item in base.customer.products)
         {
             SpawnProductInsideSideScale(item);
         }

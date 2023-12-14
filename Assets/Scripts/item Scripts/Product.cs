@@ -5,9 +5,11 @@ using Assets.Scripts.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour
+public class Product : MonoBehaviour
 {
+
     Image img;
+    [SerializeField] ItemType type;
     [field: SerializeField] public PossibleInteractionType interactionType { get; private set; }
     [field: SerializeField] public Sprite sprite { get; private set; }
 
