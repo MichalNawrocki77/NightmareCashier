@@ -9,7 +9,7 @@ public class Product : MonoBehaviour
 {
 
     Image img;
-    [SerializeField] ItemType type;
+    public ProductType type;
     [field: SerializeField] public PossibleInteractionType interactionType { get; private set; }
     [field: SerializeField] public Sprite sprite { get; private set; }
 

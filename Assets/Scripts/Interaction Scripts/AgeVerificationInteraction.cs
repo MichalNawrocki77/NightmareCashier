@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+
+using Assets.Scripts.Enums;
+
 using UnityEngine;
 
 public class AgeVerificationInteraction : Interaction
@@ -11,9 +14,9 @@ public class AgeVerificationInteraction : Interaction
     }
     void Start()
     {
-        foreach (GameObject item in base.customer.products)
+        foreach(ProductType item in base.customer.products)
         {
-            SpawnProductInsideSideScale(item);
+            SpawnProductInsideSideScale(DayManager.Instance.products[(int)item]);
         }
     }
     void Update()

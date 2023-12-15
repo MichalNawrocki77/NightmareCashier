@@ -5,6 +5,8 @@ using System.Linq;
 
 using Assets.Scripts.Enums;
 
+using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class DayManager : Singleton<DayManager>
@@ -20,7 +22,20 @@ public class DayManager : Singleton<DayManager>
     public List<Transform> productShelves;
 
     public List<GameObject> products;
+    [HideInInspector] public List<ProductType> productTypesList;
 
+    [Tooltip("Minimum time in seconds for customers to go to next product shelf (in seconds)")]
+    public int minCustomerWait;
+    [Tooltip("Minimum time in seconds for customers to go to next product shelf (in seconds)")]
+    public int maxCustomerWait;
+    private void Awake()
+    {
+        productTypesList = new List<ProductType>();
+        foreach(GameObject productObj in products)
+        {
+            productTypesList.Add(productObj.GetComponent<Product>().type);
+        }
+    }
     private void Start()
     {
         FixChancesOfInteractionOccuring();

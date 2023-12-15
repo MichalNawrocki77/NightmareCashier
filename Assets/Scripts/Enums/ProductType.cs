@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Enums
 {
-    public enum ItemType
+    public enum ProductType
     {
         Beer,
         Apples,
