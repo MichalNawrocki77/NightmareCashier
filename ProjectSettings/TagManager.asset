@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Checkout
   - Customer
+  - ShelfDestination
+  - QueueManager
   layers:
   - Default
   - TransparentFX
@@ -13,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Customer
   - 
   - 
   - 

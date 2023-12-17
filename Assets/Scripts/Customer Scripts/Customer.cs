@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,23 +7,47 @@ using Assets.Scripts.Enums;
 using UnityEngine;
 using UnityEngine.AI;
 
+using Random = UnityEngine.Random;
+
 public class Customer : MonoBehaviour
 {
-    public List<ProductType> products;
+    [HideInInspector] public List<ProductType> products;
 
     #region Navigation
-
-    NavMeshAgent agent;
-    Queue<Transform> productShelvesQueue;
-    [SerializeField] int minSecondsToGetNextProduct;
-    [SerializeField] int maxSecondsToGetNextProduct;
-    bool isProductsCollected;
-    Coroutine currentNavigationCoroutine;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public int minSecondsToGetNextProduct;
+    [HideInInspector] public int maxSecondsToGetNextProduct;
 
     //In the future There will be another way of determining the checkout to use
-    [SerializeField] Transform mockCheckoutTransform;
+    [HideInInspector] public Checkout checkout;
+
+    public event Action<Collider2D> queueManagerEntered;
     #endregion
-    // Start is called before the first frame update
+
+    #region StateMachine
+
+    public StateMachine sm;
+
+
+    public CollectingProductsState collectingProductsState;
+    public GoingToQueueState goingToQueueState;
+    public AtQueueState atQueueState;
+    public GoingToCheckoutState goingToCheckoutState;
+    public GoingHomeState goingHomeState;
+
+    #endregion
+
+    private void Awake()
+    {
+        sm = new StateMachine();
+
+        collectingProductsState = new CollectingProductsState(this,sm);
+        goingToQueueState = new GoingToQueueState(this, sm);
+        atQueueState = new AtQueueState(this, sm);
+        goingToCheckoutState = new GoingToCheckoutState(this, sm);
+        goingHomeState = new GoingHomeState(this, sm);
+        
+    }
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -30,22 +55,14 @@ public class Customer : MonoBehaviour
         agent.updateUpAxis = false;
 
         InitializeItems();
-        InitializeShelves();
-
-        SetNextDestination();
+        //Usually you call this method in awake, but since the 1st state's enter()'s InitializeShelves() Relies on the products List not being null, I need to call InitializeShelves() AFTER calling InitializeItems()
+        sm.Initialize(collectingProductsState);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IsDestinationReached())
-        {
-            if(currentNavigationCoroutine is null)
-            {
-                currentNavigationCoroutine = StartCoroutine(WaitForNextDestination());
-            }
-            
-        }
+        sm.currentState.LogicUpdate();
     }
 
     void InitializeItems()
@@ -58,39 +75,7 @@ public class Customer : MonoBehaviour
                 );
         }
     }
-    void InitializeShelves()
-    {
-        productShelvesQueue = new Queue<Transform>();
-        foreach (ProductType item in products)
-        {
-            Debug.Log(item);
-            if (productShelvesQueue.Contains(DayManager.Instance.productShelves[(int)item]))
-            {
-                continue;
-            }
-            productShelvesQueue.Enqueue(DayManager.Instance.productShelves[(int)item]);
-        }
-    }
-    void SetNextDestination()
-    {
-        //Replace this code with an actual state machine that will keep track of whether the customer is in a state of collecting items, waiting in queue for checkout, next to a checkout, going home
-        if(productShelvesQueue.Count == 0)
-        {
-            agent.SetDestination(mockCheckoutTransform.position);
-        }
-        agent.SetDestination(productShelvesQueue.Dequeue().position);
-    }
-    
-    IEnumerator WaitForNextDestination()
-    {
-        Debug.Log("Zaczynam czekaæ!!!");
-        yield return new WaitForSeconds(Random.Range(
-            DayManager.Instance.minCustomerWait,DayManager.Instance.maxCustomerWait));
-        Debug.Log("Skonczono czekac!!!");
-        SetNextDestination();
-        currentNavigationCoroutine = null;
-    }
-    bool IsDestinationReached()
+    public bool IsDestinationReached()
     {
         if(agent.remainingDistance < agent.stoppingDistance)
         {
@@ -101,4 +86,24 @@ public class Customer : MonoBehaviour
         }
         return false;
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("QueueManager"))
+        {
+            queueManagerEntered?.Invoke(collision);
+        }
+    }
+    //I coudln't figure out a better way to get acces to Destroy() in GoingHomeState xD
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+    public void AssignCustomerToCheckout(Checkout checkout)
+    {
+        checkout.CustomerCurrent = this;
+        this.checkout = checkout;
+        agent.SetDestination(checkout.navMeshDestination.position);
+        sm.ChangeState(goingToCheckoutState);
+    }
+
 }

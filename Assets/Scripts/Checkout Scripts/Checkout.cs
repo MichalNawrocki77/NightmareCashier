@@ -1,21 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Random = UnityEngine.Random;
+
 public class Checkout : MonoBehaviour
 {
-    Customer customerCurrent;
+    public Customer CustomerCurrent {
+        get
+        {
+            return customerCurrent;
+        }
+        set
+        {
+            customerCurrent = value;
+            if(customerCurrent is null)
+            {
+                customerLeft?.Invoke(this);
+            }
+        }
+    }
+    private Customer customerCurrent;
     [SerializeField] Player playerScript;
 
     [SerializeField] List<GameObject> interactions;
     GameObject interactionCurrent;
     Interaction interactionScript;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    public Transform navMeshDestination;
+    public event Action<Checkout> customerLeft;  
 
     // Update is called once per frame
     void Update()
@@ -31,7 +46,7 @@ public class Checkout : MonoBehaviour
     {
         interactionCurrent = Instantiate(interactions[0]);
         interactionCurrent.GetComponentInChildren<Interaction>().
-                           InjectDependencies(customerCurrent,playerScript);
+                           InjectDependencies(CustomerCurrent,playerScript);
 
         playerScript.InteractionPressed -= StartInteraction;
         playerScript.DisableMovement();
@@ -55,13 +70,12 @@ public class Checkout : MonoBehaviour
         playerScript.InteractionPressed -= ShowInteraction;
         playerScript.InteractionPressed += HideInteraction;
     }
+    public void InteractionFinished()
+    {
+        customerLeft?.Invoke(this);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Customer"))
-        {
-            customerCurrent = collision.gameObject.GetComponent<Customer>();
-            Debug.Log(customerCurrent.name);
-        }
         if (collision.CompareTag("Player"))
         {
             switch(interactionCurrent is null)
@@ -79,12 +93,6 @@ public class Checkout : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Customer"))
-        {
-            customerCurrent = null;
-            Debug.Log("No Peta :(");
-        }
-
         if (collision.CompareTag("Player"))
         {
             playerScript.InteractionPressed -= StartInteraction;
