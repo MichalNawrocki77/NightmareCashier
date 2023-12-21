@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DayCycle : Singleton<DayCycle>
 {
@@ -60,8 +61,20 @@ public class DayCycle : Singleton<DayCycle>
 
     private void Awake()
     {
+         string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
+     
+         switch (int.Parse(gettedSaves[0]))
+         {
+             case 1:
+                 DayTimeLeft = 30;
+                 break;
 
 
+             case 2:
+                DayTimeLeft = 60;
+                 break;
+         }
+        
 
         StopCustomers = false;
 
@@ -104,6 +117,12 @@ public class DayCycle : Singleton<DayCycle>
         if(DayTimeLeft <= 0)
         {
             StopCustomers = true;
+
+            string[] gettedSaves = PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";"); 
+
+            PlayerPrefs.SetString(PlayerPrefs.GetString("currentSave"), (int.Parse(gettedSaves[0]) +1).ToString() + ";0");
+            SceneManager.LoadScene("SHOP");
+
         }
 
 

@@ -7,7 +7,7 @@ public class MenuHandler : MonoBehaviour
    public void ExitApp()
     {
         //Application.Quit();
-        Debug.Log("nara");
+        Debug.Log("quit");
     }
 
   

@@ -26385,7 +26385,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 483942331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.58, y: -3.81, z: -9.972184}
+  m_LocalPosition: {x: 4.5799994, y: -3.81, z: -9.972184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35572,7 +35572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879151765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.58, y: -3.81, z: -9.972184}
+  m_LocalPosition: {x: 4.5799994, y: -3.81, z: -9.972184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -37644,9 +37644,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: DayTimeLeft
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: coworkerPad
       value: 
       objectReference: {fileID: 1706285525}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: maxBetweenEvents
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: minBetweenEvents
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6010629286948324847, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: m_Name
       value: Day Manager

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Saves : MonoBehaviour
 {
@@ -47,8 +48,13 @@ public class Saves : MonoBehaviour
     {
         if (whichSave != "")
         {
+            if (PlayerPrefs.HasKey(whichSave))
+            {
+
+           
             PlayerPrefs.DeleteKey(whichSave);
             GameObject.Find(whichSave).transform.GetChild(0).GetComponent<TMP_Text>().text = "SAVE (PUSTY)";
+            }
         }
     }
 
@@ -56,23 +62,25 @@ public class Saves : MonoBehaviour
     {
         if (whichSave != "")
         {
+            PlayerPrefs.SetString("currentSave", whichSave);
             if (PlayerPrefs.GetString(whichSave) ==  "" || PlayerPrefs.GetString(whichSave)[0] == '1')
             {
-                Debug.Log("tworzymy gówno!!!");
-
-                PlayerPrefs.SetString(whichSave,"2;5");
-
               
 
+                PlayerPrefs.SetString(whichSave, "1;0");
+
+                //Debug.Log(PlayerPrefs.GetString("currentSave"));
+                SceneManager.LoadScene("SHOP");
             }
             else
             {
-                string[] omg = PlayerPrefs.GetString(whichSave).Split(";");
-                Debug.Log("shift: " + omg[0] + " zagadek rozwi¹zanych: " + omg[1]);
+                SceneManager.LoadScene("SHOP");
+                //string[] omg = PlayerPrefs.GetString(whichSave).Split(";");
+                // Debug.Log("shift: " + omg[0] + " zagadek rozwi¹zanych: " + omg[1]);
             }
 
-
-            GameObject.Find(whichSave).transform.GetChild(0).GetComponent<TMP_Text>().text = "shift: " + PlayerPrefs.GetString(whichSave)[0];
+            string[] gettedSaves  = PlayerPrefs.GetString(whichSave).Split(";");
+            GameObject.Find(whichSave).transform.GetChild(0).GetComponent<TMP_Text>().text = "shift: " + gettedSaves[0];
         
         }
 
