@@ -39,6 +39,12 @@ public class DayManager : Singleton<DayManager>
     [SerializeField] List<GameObject> customerPrefabs;
     [SerializeField] Transform customerSpawnPoint;
     public Transform customerExitPoint;
+
+
+
+    public int points = 0;
+  
+
     private void Awake()
     {
         productTypesList = new List<ProductType>();
@@ -70,10 +76,19 @@ public class DayManager : Singleton<DayManager>
         }
     }
 
+
+    public void AddPoints(int ptk)
+    {
+        if (!DayCycle.Instance.eventStarted)
+        {
+            points += ptk;
+        }
+    }
+
     IEnumerator CustomerSpawningCoroutine()
     {
         int cos = 0;
-        while (true)
+        while (DayCycle.Instance.StopCustomers == false)
         {
             GameObject temp = Instantiate(customerPrefabs[0], customerSpawnPoint);
             temp.name = "Peta"+cos;

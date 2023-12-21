@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3487525362341726909}
   - component: {fileID: 3448046811706949793}
+  - component: {fileID: 5071629993771536247}
   m_Layer: 0
   m_Name: Day Manager
   m_TagString: Untagged
@@ -44,8 +45,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1acb9e31b9107f74f852a05ac8b39342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chancesOfInteractionOccuring: 6400000000
+  chancesOfInteractionOccuring: 0000000000
+  productShelves:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   products:
   - {fileID: 8948150369648650343, guid: f52c9392b6762cc47bed1bb4bb278014, type: 3}
   - {fileID: 8948150369648650343, guid: 181e1f69ab589aa41b139346fb9c5af2, type: 3}
   - {fileID: 8948150369648650343, guid: 9ea24c3047a30a8439d22605b07e3b27, type: 3}
+  productTypesList: 
+  minCustomerWait: 1
+  maxCustomerWait: 2
+  selfServiceQueue: {fileID: 0}
+  Queues: []
+  customerPrefabs:
+  - {fileID: 4286515926957810409, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
+  customerSpawnPoint: {fileID: 0}
+  customerExitPoint: {fileID: 0}
+  points: 0
+--- !u!114 &5071629993771536247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010629286948324847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c867fd88a320f40ba2f792cfeb0a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DayTimeLeft: 60
+  StopCustomers: 0
+  coworkerPad: {fileID: 0}
+  howMuchAfterStartEvents: 3
+  howMuchBeforeEndEvents: 5
+  maxBetweenEvents: 10
+  minBetweenEvents: 5
+  howManyEvents: 3
+  timestamps: 
+  eventStarted: 0
+  currEvent: {fileID: 0}
