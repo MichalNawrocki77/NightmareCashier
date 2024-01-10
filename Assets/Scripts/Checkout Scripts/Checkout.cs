@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class Checkout : MonoBehaviour
 {
+    //Keep in mind that customerCurrent is set in Customer.AssignCustomerToCheckout()
     public Customer CustomerCurrent {
         get
         {
@@ -25,7 +26,7 @@ public class Checkout : MonoBehaviour
     private Customer customerCurrent;
     [SerializeField] Player playerScript;
 
-    [SerializeField] List<GameObject> interactions;
+    [SerializeField] GameObject interaction;
     GameObject interactionCurrent;
     Interaction interactionScript;
 
@@ -40,11 +41,20 @@ public class Checkout : MonoBehaviour
     int ChooseInteraction()
     {
         //so far I only roll for an int, later this method will have an actual way of choosing an interaction
-        return Random.Range(0, interactions.Count);
+
+        //Use this method as a means of checking products of the customer to determine which products will throw problems;
+
+        //return Random.Range(0, interaction.Count);
+        return 0;
     }
     public void StartInteraction()
     {
-        interactionCurrent = Instantiate(interactions[0]);
+        if(customerCurrent is null)
+        {
+            Debug.Log("This Checkout Does not have customer assigned");
+            return;
+        }
+        interactionCurrent = Instantiate(interaction);
         interactionCurrent.GetComponentInChildren<Interaction>().
                            InjectDependencies(CustomerCurrent,playerScript);
 

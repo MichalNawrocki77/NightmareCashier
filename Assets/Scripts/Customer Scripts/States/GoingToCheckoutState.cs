@@ -39,13 +39,10 @@ public class GoingToCheckoutState : CustomerState
     }
     IEnumerator InteractWithCheckout()
     {
-        Debug.Log(customer.name + " zaczyna czekac");
         //for the time being this will just be a random time, but in the future I will replace it with actual logic
         yield return new WaitForSeconds(Random.Range(
             DayManager.Instance.minCustomerWait+5, DayManager.Instance.maxCustomerWait+5));
         
-        Debug.Log(customer.name + " skonczyl czekac");
         customer.sm.ChangeState(customer.goingHomeState);
-        
     }
 }
