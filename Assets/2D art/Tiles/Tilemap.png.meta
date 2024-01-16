@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
@@ -75,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -87,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -99,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -111,6 +116,33 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -883,45 +915,44 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tilemap_9: 1847246844
-      Tilemap_6: -1113165412
-      Tilemap_19: -1530676930
-      Tilemap_4: -1557213110
-      Tilemap_7: 1677768625
-      Tilemap_15: -1044239924
-      Tilemap_22: 601697326
-      Tilemap_17: -111674502
-      Tilemap_3: -1142158251
-      Tilemap_24: -1440582394
-      Tilemap_25: 1706013812
-      Tilemap_21: 560242046
-      Tilemap_28: 206812974
-      Tilemap_2: 757030694
-      Tilemap_29: 2103863789
-      Tilemap_31: -1084682455
-      Tilemap_34: 1810419276
-      Tilemap_16: -2082703497
-      Tilemap_10: -1156999918
-      Tilemap_12: -2032999501
-      Tilemap_26: 995311107
-      Tilemap_30: -1083977678
-      Tilemap_20: -1118233836
-      Tilemap_11: 2035535439
-      Tilemap_35: 814128009
-      Tilemap_27: -207478275
-      Tilemap_14: -258815947
-      Tilemap_33: 1165244664
-      Tilemap_8: -997360825
       Tilemap_0: -1545087785
       Tilemap_1: 1124101535
-      Tilemap_5: 1513150754
+      Tilemap_10: -1156999918
+      Tilemap_11: 2035535439
+      Tilemap_12: -2032999501
       Tilemap_13: 1141973077
-      Tilemap_32: -1621414180
+      Tilemap_14: -258815947
+      Tilemap_15: -1044239924
+      Tilemap_16: -2082703497
+      Tilemap_17: -111674502
       Tilemap_18: 1442371214
+      Tilemap_19: -1530676930
+      Tilemap_2: 757030694
+      Tilemap_20: -1118233836
+      Tilemap_21: 560242046
+      Tilemap_22: 601697326
       Tilemap_23: 659545563
-  spritePackingTag: 
+      Tilemap_24: -1440582394
+      Tilemap_25: 1706013812
+      Tilemap_26: 995311107
+      Tilemap_27: -207478275
+      Tilemap_28: 206812974
+      Tilemap_29: 2103863789
+      Tilemap_3: -1142158251
+      Tilemap_30: -1083977678
+      Tilemap_31: -1084682455
+      Tilemap_32: -1621414180
+      Tilemap_33: 1165244664
+      Tilemap_34: 1810419276
+      Tilemap_35: 814128009
+      Tilemap_4: -1557213110
+      Tilemap_5: 1513150754
+      Tilemap_6: -1113165412
+      Tilemap_7: 1677768625
+      Tilemap_8: -997360825
+      Tilemap_9: 1847246844
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

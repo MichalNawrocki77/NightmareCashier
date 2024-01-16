@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24e00308e0f381243adc6248471587ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
   <interactionType>k__BackingField: 0
-  <sprite>k__BackingField: {fileID: 21300000, guid: caa1b0e019fd27f44a5884250a5350cd, type: 3}
+  <sprite>k__BackingField: {fileID: 21300000, guid: 7825a9991826b7c4dbee12cdd3c2d4f9, type: 3}
 --- !u!222 &5921351283939085038
 CanvasRenderer:
   m_ObjectHideFlags: 0

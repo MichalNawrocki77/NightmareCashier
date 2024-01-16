@@ -26,18 +26,11 @@ public class DayCycle : Singleton<DayCycle>
 
 
     private void EventNumberGenerator()
-    {
-    
-      
-
+    {  
         for (int i = 0; i < howManyEvents; i++)
         {
             timestamps.Add((int)Random.Range(DayTimeLeft - howMuchAfterStartEvents, howMuchBeforeEndEvents));
         }
-
-       
-
-       
 
         bool wrong = false;
         for(int j = 1; j < timestamps.Count; j++)
@@ -47,16 +40,11 @@ public class DayCycle : Singleton<DayCycle>
                 wrong = true;
             }
         }
-
-       
-            if (wrong)
-            {
-                timestamps.Clear();
-                EventNumberGenerator();
-            }
- 
-     
-
+        if (wrong)
+        {
+            timestamps.Clear();
+            EventNumberGenerator();
+        }
     }
 
     private void Awake()
@@ -74,25 +62,17 @@ public class DayCycle : Singleton<DayCycle>
                 DayTimeLeft = 60;
                  break;
          }
-        
 
         StopCustomers = false;
 
-
-
-       
-        
-            if (howMuchAfterStartEvents + howMuchBeforeEndEvents + maxBetweenEvents * howManyEvents > DayTimeLeft)
-            {
-                Debug.LogError("NIE DA SIE WYGENEROWAC TYLU PROBLEMOW W TAK KROTKIM CZASIE");
-            }
-            else
-            {
-                EventNumberGenerator();
-            }
-            
-
-
+        if (howMuchAfterStartEvents + howMuchBeforeEndEvents + maxBetweenEvents * howManyEvents > DayTimeLeft)
+        {
+            Debug.LogError("NIE DA SIE WYGENEROWAC TYLU PROBLEMOW W TAK KROTKIM CZASIE");
+        }
+        else
+        {
+            EventNumberGenerator();
+        }
     }
 
     // Update is called once per frame
@@ -106,8 +86,6 @@ public class DayCycle : Singleton<DayCycle>
         {
             eventStarted = true;
         }
-
-
 
         if (DayTimeLeft >= 0 && eventStarted == false)
         {
@@ -125,9 +103,6 @@ public class DayCycle : Singleton<DayCycle>
 
         }
 
-
-
-
         for(int i = 0; i < timestamps.Count; i++)
         {
             if (Mathf.Round(DayTimeLeft) == timestamps[i])
@@ -138,13 +113,5 @@ public class DayCycle : Singleton<DayCycle>
                 break;
             }
         }
-
-
-     
-
-
-
-
-
     }
 }

@@ -13,12 +13,12 @@ public class CoworkerPadInteract : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
 
-               GetComponent<BoxCollider2D>().enabled = false;
-               GetComponent<SpriteRenderer>().color = Color.white;
+           GetComponent<BoxCollider2D>().enabled = false;
+           GetComponent<SpriteRenderer>().color = Color.white;
 
             
-           // possibleEvents[Random.Range(0, possibleEvents.Count + 1)].SetActive(true);
-           // DayCycle.Instance.currEvent = possibleEvents[Random.Range(0,possibleEvents.Count)];
+           possibleEvents[Random.Range(0, possibleEvents.Count)].SetActive(true);
+           DayCycle.Instance.currEvent = possibleEvents[Random.Range(0,possibleEvents.Count)];
 
 
         }

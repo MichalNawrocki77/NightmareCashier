@@ -87,12 +87,12 @@ public class DayManager : Singleton<DayManager>
 
     IEnumerator CustomerSpawningCoroutine()
     {
-        int cos = 0;
+        int id = 0;
         while (DayCycle.Instance.StopCustomers == false)
         {
             GameObject temp = Instantiate(customerPrefabs[0], customerSpawnPoint);
-            temp.name = "Peta"+cos;
-            cos++;
+            temp.name = "Customer"+id;
+            id++;
             yield return new WaitForSeconds(Random.Range(minCustomerWait, maxCustomerWait));
         }
     }
