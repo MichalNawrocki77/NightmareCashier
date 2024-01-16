@@ -42,6 +42,9 @@ public class GoingToCheckoutState : CustomerState
         //for the time being this will just be a random time, but in the future I will replace it with actual logic
         yield return new WaitForSeconds(Random.Range(
             DayManager.Instance.minCustomerWait+5, DayManager.Instance.maxCustomerWait+5));
+
+
+        DayManager.Instance.AddPoints(10);
         
         customer.sm.ChangeState(customer.goingHomeState);
     }
