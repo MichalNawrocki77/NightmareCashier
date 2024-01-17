@@ -42,6 +42,8 @@ public class DayManager : Singleton<DayManager>
 
 
 
+    [SerializeField]
+    AudioSource source;
     public int points = 0;
   
 
@@ -55,6 +57,9 @@ public class DayManager : Singleton<DayManager>
     }
     private void Start()
     {
+   
+    
+
         FixChancesOfInteractionOccuring();
 
         StartCoroutine(CustomerSpawningCoroutine());

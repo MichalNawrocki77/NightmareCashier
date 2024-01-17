@@ -63,6 +63,7 @@ MonoBehaviour:
   - {fileID: 4286515926957810409, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
   customerSpawnPoint: {fileID: 0}
   customerExitPoint: {fileID: 0}
+  source: {fileID: 0}
   points: 0
 --- !u!114 &5071629993771536247
 MonoBehaviour:
@@ -76,14 +77,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c867fd88a320f40ba2f792cfeb0a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DayTimeLeft: 60
+  DayTimeLeft: 30
   StopCustomers: 0
   coworkerPad: {fileID: 0}
   howMuchAfterStartEvents: 3
   howMuchBeforeEndEvents: 5
-  maxBetweenEvents: 10
-  minBetweenEvents: 5
-  howManyEvents: 3
+  maxBetweenEvents: 2
+  minBetweenEvents: 1
+  howManyEvents: 2
+  source: {fileID: 0}
   timestamps: 
   eventStarted: 0
   currEvent: {fileID: 0}

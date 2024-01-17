@@ -17,11 +17,19 @@ public class DayCycle : Singleton<DayCycle>
     [SerializeField] int minBetweenEvents;
     [SerializeField] int howManyEvents;
 
+
+    [SerializeField]
+
+    AudioSource source;
+
     public List<int> timestamps = new List<int>();
 
     public bool eventStarted;
     
     public GameObject currEvent;
+
+
+
 
 
 
@@ -47,9 +55,16 @@ public class DayCycle : Singleton<DayCycle>
         }
     }
 
+
+ 
     private void Awake()
     {
-         string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
+        source.loop = true;
+
+        source.Play();
+
+
+        string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
      
         //Jeœli jest to pierwszy dzieñ, ustaw jego d³ugoœæ na 300s, jesli to jakiœ inny dzieñ, ustaw jego czas na 600s
          switch (int.Parse(gettedSaves[0]))
@@ -79,7 +94,16 @@ public class DayCycle : Singleton<DayCycle>
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(currEvent == null)
+
+        source.volume = PlayerPrefs.GetFloat("MusicVolume");
+
+
+
+
+
+
+
+        if (currEvent == null)
         {
             eventStarted = false;
         }
