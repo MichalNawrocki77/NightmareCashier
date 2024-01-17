@@ -91,6 +91,7 @@ public class DayManager : Singleton<DayManager>
         while (DayCycle.Instance.StopCustomers == false)
         {
             GameObject temp = Instantiate(customerPrefabs[0], customerSpawnPoint);
+            temp.transform.localPosition = Vector3.zero;
             temp.name = "Customer"+id;
             id++;
             yield return new WaitForSeconds(Random.Range(minCustomerWait, maxCustomerWait));

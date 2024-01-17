@@ -51,15 +51,16 @@ public class DayCycle : Singleton<DayCycle>
     {
          string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
      
+        //Jeœli jest to pierwszy dzieñ, ustaw jego d³ugoœæ na 300s, jesli to jakiœ inny dzieñ, ustaw jego czas na 600s
          switch (int.Parse(gettedSaves[0]))
          {
              case 1:
-                 DayTimeLeft = 30;
+                 DayTimeLeft = 300;
                  break;
 
 
-             case 2:
-                DayTimeLeft = 60;
+             default:
+                DayTimeLeft = 600;
                  break;
          }
 
@@ -89,7 +90,7 @@ public class DayCycle : Singleton<DayCycle>
 
         if (DayTimeLeft >= 0 && eventStarted == false)
         {
-            DayTimeLeft -= Time.deltaTime;
+            DayTimeLeft -= Time.fixedDeltaTime;
         }
        
         if(DayTimeLeft <= 0)
