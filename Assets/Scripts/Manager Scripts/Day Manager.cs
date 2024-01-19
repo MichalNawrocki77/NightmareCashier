@@ -25,7 +25,7 @@ public class DayManager : Singleton<DayManager>
     public List<Transform> productShelves;
 
     public List<GameObject> products;
-    [HideInInspector] public List<ProductType> productTypesList;
+    [HideInInspector] public List<Product> productList;
 
     [Tooltip("Minimum time in seconds for customers to go to next product shelf")]
     public int minCustomerWait;
@@ -47,10 +47,10 @@ public class DayManager : Singleton<DayManager>
 
     private void Awake()
     {
-        productTypesList = new List<ProductType>();
+        productList = new List<Product>();
         foreach(GameObject productObj in products)
         {
-            productTypesList.Add(productObj.GetComponent<Product>().type);
+            productList.Add(productObj.GetComponent<Product>());
         }
     }
     private void Start()

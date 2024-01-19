@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class Customer : MonoBehaviour
 {
-    [HideInInspector] public List<ProductType> products;
+    [HideInInspector] public List<Product> products;
 
     #region Navigation
     [HideInInspector] public NavMeshAgent agent;
@@ -67,10 +67,10 @@ public class Customer : MonoBehaviour
 
     void InitializeItems()
     {
-        products = new List<ProductType>();
+        products = new List<Product>();
         for(int i=0; i<Random.Range(3,7); i++)
         {
-            products.Add(DayManager.Instance.productTypesList[
+            products.Add(DayManager.Instance.productList[
                 Random.Range(0,DayManager.Instance.products.Count)]
                 );
         }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AddProduct_Btn : MonoBehaviour, IPointerClickHandler
+public class OpenPanel_Btn : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] GameObject panelToOpen;
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log($"Kliknieto przycisk {this.gameObject.name}");
+        panelToOpen.SetActive(true);
     }
 }

@@ -11,9 +11,9 @@ public class Interaction : MonoBehaviour
     [SerializeField] RectTransform sideScaleRect;
     void Start()
     {
-        foreach (ProductType item in customer.products)
+        foreach (Product item in customer.products)
         {
-            SpawnProductInsideSideScale(DayManager.Instance.products[(int)item]);
+            SpawnProductInsideSideScale(DayManager.Instance.products[(int)item.type]);
         }
     }
     internal void InjectDependencies(Customer customer, Player player)

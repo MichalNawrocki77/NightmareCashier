@@ -47,13 +47,13 @@ public class CollectingProductsState : CustomerState
     void InitializeShelves()
     {
         productShelvesQueue = new Queue<Transform>();
-        foreach (ProductType item in customer.products)
+        foreach (Product item in customer.products)
         {
-            if (productShelvesQueue.Contains(DayManager.Instance.productShelves[(int)item]))
+            if (productShelvesQueue.Contains(DayManager.Instance.productShelves[(int)item.type]))
             {
                 continue;
             }
-            productShelvesQueue.Enqueue(DayManager.Instance.productShelves[(int)item]);
+            productShelvesQueue.Enqueue(DayManager.Instance.productShelves[(int)item.type]);
         }
     }
     void SetNextDestination()
