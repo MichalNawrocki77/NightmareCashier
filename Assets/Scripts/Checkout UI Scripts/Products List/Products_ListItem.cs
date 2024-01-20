@@ -7,6 +7,7 @@ using TMPro;
 using UnityEditor.UIElements;
 
 using UnityEngine;
+using System;
 
 public class Products_ListItem : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Products_ListItem : MonoBehaviour
         {
             quantity = value;
             SetQuantityLabelText(quantity);
+            FullWeight = product.weight * quantity;
+            FullPrice = product.price * quantity;
         }
     }
     int quantity;
@@ -37,7 +40,7 @@ public class Products_ListItem : MonoBehaviour
         }
         private set
         {
-            fullPrice = value * Quantity;
+            fullPrice = GetFloatWIthTwoDecimalPlaces(value);
             SetFullPriceLabelText(fullPrice);
         }
     }
@@ -49,9 +52,9 @@ public class Products_ListItem : MonoBehaviour
         {
             return fullWeight;
         }
-        private set
+        set
         {
-            fullWeight = value;
+            fullWeight = GetFloatWIthTwoDecimalPlaces(value);
             SetFullWeightLabelText(FullWeight);
         }
     }
@@ -68,7 +71,8 @@ public class Products_ListItem : MonoBehaviour
     private void Awake()
     {
         //When a new ListItem is instantiated quantity is supposed to be 1. The reason it is in awake and not in start is that the initial adding of ListItems in ProductList is called alongside instantiate(), and since only awake is called alongside instantiate and has to wait for the next frame update, the quantity has to be set in awake (so that when ProductsList adds another product of same type, the quantity will properly start incrementing from 1, and not the int default value of 0)
-        Quantity = 1;
+        quantity = 1;
+        SetQuantityLabelText(quantity);
     }
     private void Start()
     {
@@ -78,8 +82,8 @@ public class Products_ListItem : MonoBehaviour
         SetPriceLabelText(product.price);
         SetProductWeightLabelText(product.weight);
 
+        FullWeight =  product.weight * Quantity;
         FullPrice = product.price * Quantity;
-        FullWeight = product.weight * Quantity;
     }
 
     #region labels text setters
@@ -97,6 +101,7 @@ public class Products_ListItem : MonoBehaviour
     /// <param name="price">full price as float</param>
     void SetPriceLabelText(float price)
     {
+        //For whatever reason 
         productPriceLabel.text = $"{price}$";
     }
     /// <summary>
@@ -128,9 +133,6 @@ public class Products_ListItem : MonoBehaviour
     public void UpdateQuantity(int newQuantity=0)
     {
         Quantity = newQuantity;
-
-        SetFullPriceLabelText(product.price * quantity);
-        SetFullWeightLabelText(product.weight * quantity);
     }
     public void FixListItemProperties(int newQuantity)
     {
@@ -140,11 +142,16 @@ public class Products_ListItem : MonoBehaviour
     }
     public void IncrementQuantity()
     {
-        UpdateQuantity(++quantity);
+        UpdateQuantity(++Quantity);
     }
     public void OnListItemClick()
     {
         modifyProductPanel.gameObject.SetActive(true);
         modifyProductPanel.InitializePanel(Quantity, FullWeight, this);
+    }
+    float GetFloatWIthTwoDecimalPlaces(float number)
+    {
+        return Mathf.Round(number*100) / 100;
+
     }
 }

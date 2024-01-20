@@ -28,7 +28,7 @@ public class Checkout : MonoBehaviour
 
     [SerializeField] GameObject interaction;
     GameObject interactionCurrent;
-    Interaction interactionScript;
+    public Interaction InteractionScript { get; private set; }
 
     public Transform navMeshDestination;
     public event Action<Checkout> customerLeft;  
@@ -49,24 +49,15 @@ public class Checkout : MonoBehaviour
     }
     public void StartInteraction()
     {
-        if(customerCurrent is null)
-        {
-            Debug.Log("This Checkout Does not have customer assigned");
-            return;
-        }
         interactionCurrent = Instantiate(interaction);
-        interactionCurrent.GetComponentInChildren<Interaction>().
-                           InjectDependencies(CustomerCurrent,playerScript);
+        InteractionScript = interactionCurrent.GetComponentInChildren<Interaction>();
+        InteractionScript.InjectDependencies(CustomerCurrent,playerScript);
 
-        playerScript.InteractionPressed -= StartInteraction;
-        playerScript.DisableMovement();
-
-
-        playerScript.InteractionPressed += HideInteraction;
+        InteractionScript.IsVisible = false;
     }
     public void HideInteraction()
     {
-        interactionCurrent.SetActive(false);
+        InteractionScript.IsVisible = false;
 
         playerScript.Input.PlayerActionMap.MovementAction.Enable();
         playerScript.InteractionPressed -= HideInteraction;
@@ -74,7 +65,7 @@ public class Checkout : MonoBehaviour
     }
     public void ShowInteraction()
     {
-        interactionCurrent.SetActive(true);
+        InteractionScript.IsVisible = true;
 
         playerScript.DisableMovement();
         playerScript.InteractionPressed -= ShowInteraction;
@@ -86,26 +77,15 @@ public class Checkout : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && interactionCurrent is not null)
         {
-            switch(interactionCurrent is null)
-            {
-                case true:
-                    playerScript.InteractionPressed += StartInteraction;
-                    break;
-                case false:
-                    playerScript.InteractionPressed += ShowInteraction;
-                    break;
-
-            }
-                    
+            playerScript.InteractionPressed += ShowInteraction;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            playerScript.InteractionPressed -= StartInteraction;
             playerScript.InteractionPressed -= ShowInteraction;
         }
     }

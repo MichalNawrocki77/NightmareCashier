@@ -12,7 +12,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "New Item")]
 public class ItemSO : ScriptableObject
 {
-    [field: SerializeField] public PossibleInteractionType interactionType { get; private set; }
+    [field: SerializeField] public InteractionFailureType interactionType { get; private set; }
     [field: SerializeField] public Sprite sprite { get; private set; }
 
 
@@ -21,7 +21,7 @@ public class ItemSO : ScriptableObject
 
         if (Random.Range(0, 101)
             >
-            DayManager.Instance.chancesOfInteractionOccuring[(int)interactionType])
+            DayManager.Instance.chancesOfInteractionFailuresOccuring[(int)interactionType])
         {
             return false;
         }

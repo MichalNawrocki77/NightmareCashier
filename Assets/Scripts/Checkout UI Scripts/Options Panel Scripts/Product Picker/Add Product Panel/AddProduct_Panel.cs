@@ -65,5 +65,5 @@ public class AddProduct_Panel : MonoBehaviour
     public void MinusButtonClicked()
     {
         Quantity--;
-    }
+    }    
 }

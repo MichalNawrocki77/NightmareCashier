@@ -12,12 +12,31 @@ public class Interaction : MonoBehaviour
     internal Player player;
     [SerializeField] RectTransform sideScaleRect;
     [SerializeField] ProductsList productsList;
-    void Start()
+    CanvasGroup canvasGroup;
+    
+    public bool IsVisible
     {
-        foreach (Product product in customer.products)
+        get
         {
-            AddProductToInteraction(product);
+            return isVisible;
         }
+        set
+        {
+            isVisible = value;
+            canvasGroup.alpha = isVisible ? 1 : 0;
+        }
+    }
+    private bool isVisible;
+
+    InteractionFailureType failureType;
+
+    private void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
+    private void Update()
+    {
+        Debug.Log("Still Breathing");
     }
     internal void InjectDependencies(Customer customer, Player player)
     {
@@ -42,13 +61,64 @@ public class Interaction : MonoBehaviour
                 )
             );
     }
-    public void AddProductToInteraction(Product product)
+    /// <summary>
+    /// Method used for initial product adding (when customer comes up to the checkout) 
+    /// </summary>
+    /// <param name="product"></param>
+    public void AddProductToInteraction(Product product, InteractionFailureType failureType)
     {
         SpawnProductInsideSideScale(DayManager.Instance.products[(int)product.type]);
-        productsList.AddProductToProducts_Quantity_Pair(product);
+        productsList.AddProductToProducts_Quantity_Pair(product, failureType);
     }
+    /// <summary>
+    /// Method used for adding products to product list via AddProduct_Panel
+    /// </summary>
+    /// <param name="product"></param>
     public void AddProductToProductsList(Product product)
     {
-        productsList.AddProductToProducts_Quantity_Pair(product);
+        //since this is supposed to always add a product I can simply pass None, for the failureType enum
+        productsList.AddProductToProducts_Quantity_Pair(
+            product, InteractionFailureType.None);
+    }
+    /// <summary>
+    /// returns true if failure has occured
+    /// </summary>
+    /// <returns></returns>
+    public bool GetFailureStatus()
+    {
+        return failureType != InteractionFailureType.None;
+    }
+    public IEnumerator AddingProductsCoroutine()
+    {
+        foreach (Product product in customer.products)
+        {
+            
+            //so far the wait in between product adding is 2s, define it in DayManager in the future
+            yield return new WaitForSeconds(2);
+
+            if(
+                Random.Range(1, 101)
+                <
+                DayManager.Instance.chancesOfInteractionFailuresOccuring[0])
+            {
+                failureType = InteractionFailureType.IncorrectQuantity;
+            }
+            else if (
+                Random.Range(1, 101)
+                <
+                DayManager.Instance.chancesOfInteractionFailuresOccuring[1])
+            {
+                failureType = InteractionFailureType.IncorrectWeight;
+            }
+            else
+            {
+                failureType = InteractionFailureType.None;
+            }
+
+            AddProductToInteraction(product, failureType);
+               
+
+            yield return new WaitWhile(GetFailureStatus);
+        }
     }
 }

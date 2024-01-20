@@ -13,7 +13,7 @@ public class Product : MonoBehaviour
     [field: SerializeField] public ProductType type { get; private set; }
     [field: SerializeField] public float price { get; private set; }
     [field: SerializeField] public float weight { get; private set; }
-    [field: SerializeField] public PossibleInteractionType interactionType { get; private set; }
+    [field: SerializeField] public InteractionFailureType interactionType { get; private set; }
     [field: SerializeField] public Sprite sprite { get; private set; }
 
     void Start()
@@ -32,7 +32,7 @@ public class Product : MonoBehaviour
 
         if (Random.Range(0, 101)
             >
-            DayManager.Instance.chancesOfInteractionOccuring[(int)interactionType])
+            DayManager.Instance.chancesOfInteractionFailuresOccuring[(int)interactionType])
         {
             return false;
         }

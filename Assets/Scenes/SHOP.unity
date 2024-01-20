@@ -36432,11 +36432,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3112957662626101112, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.21
+      value: -13.92
       objectReference: {fileID: 0}
     - target: {fileID: 3112957662626101112, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14.54
+      value: -4.54
       objectReference: {fileID: 0}
     - target: {fileID: 3112957662626101112, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -37863,6 +37863,22 @@ PrefabInstance:
       propertyPath: productShelves.Array.data[2]
       value: 
       objectReference: {fileID: 578108349}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: chancesOfInteractionFailuresOccuring.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: chancesOfInteractionFailuresOccuring.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: chancesOfInteractionFailuresOccuring.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: chancesOfInteractionFailuresOccuring.Array.data[2]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3487525362341726909, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: m_RootOrder
       value: 6

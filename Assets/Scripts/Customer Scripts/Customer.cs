@@ -106,6 +106,7 @@ public class Customer : MonoBehaviour
     {
         checkout.CustomerCurrent = this;
         this.checkout = checkout;
+        checkout.StartInteraction();
         agent.SetDestination(checkout.navMeshDestination.position);
         sm.ChangeState(goingToCheckoutState);
     }
