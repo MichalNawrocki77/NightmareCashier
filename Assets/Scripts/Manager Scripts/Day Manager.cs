@@ -36,6 +36,7 @@ public class DayManager : Singleton<DayManager>
     [Tooltip("Make sure to not add self service queue to this list, since that has it's own field")]
     public List<CheckoutQueue> Queues;
 
+    public bool spawnCustomers;
     [SerializeField] List<GameObject> customerPrefabs;
     [SerializeField] Transform customerSpawnPoint;
     public Transform customerExitPoint;

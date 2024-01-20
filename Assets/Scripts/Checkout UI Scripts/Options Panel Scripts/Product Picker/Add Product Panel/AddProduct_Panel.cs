@@ -8,11 +8,28 @@ using UnityEngine.UI;
 
 public class AddProduct_Panel : MonoBehaviour
 {
+    [SerializeField] Interaction interaction;
+
     Product product;
     [SerializeField] Image productDisplayedImg;
     [SerializeField] TextMeshProUGUI productNameLabel;
     [SerializeField] TextMeshProUGUI productQuantityLabel;
     [SerializeField] TextMeshProUGUI productWeightLabel;
+
+    int quantity;
+    public int Quantity
+    {
+        get
+        {
+            return quantity;
+        }
+        private set
+        {
+            quantity = value;
+            productQuantityLabel.text = quantity.ToString();
+        }
+    }
+    float weight;
     /// <summary>
     /// Method that populates all the labels and image of the Panel to the product that is intended to be added
     /// </summary>
@@ -31,5 +48,17 @@ public class AddProduct_Panel : MonoBehaviour
     void SetWeightText(int weight)
     {
         productWeightLabel.text = $"{weight} kg";
+    }
+    public void AddButtonClicked()
+    {
+        interaction.AddProductToInteraction(product);
+    }
+    public void PlusButtonClicked()
+    {
+        Quantity++;
+    }
+    public void MinusButtonClicked()
+    {
+        Quantity--;
     }
 }

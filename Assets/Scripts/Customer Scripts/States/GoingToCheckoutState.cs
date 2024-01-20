@@ -46,6 +46,6 @@ public class GoingToCheckoutState : CustomerState
 
         DayManager.Instance.AddPoints(10);
         
-        customer.sm.ChangeState(customer.goingHomeState);
+        //customer.sm.ChangeState(customer.goingHomeState);
     }
 }

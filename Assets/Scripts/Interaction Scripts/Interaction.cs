@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Enums;
 
+using Unity.VisualScripting;
+
 using UnityEngine;
 
 public class Interaction : MonoBehaviour
@@ -9,11 +11,12 @@ public class Interaction : MonoBehaviour
     internal Customer customer;
     internal Player player;
     [SerializeField] RectTransform sideScaleRect;
+    [SerializeField] ProductsList productsList;
     void Start()
     {
-        foreach (Product item in customer.products)
+        foreach (Product product in customer.products)
         {
-            SpawnProductInsideSideScale(DayManager.Instance.products[(int)item.type]);
+            AddProductToInteraction(product);
         }
     }
     internal void InjectDependencies(Customer customer, Player player)
@@ -38,5 +41,10 @@ public class Interaction : MonoBehaviour
                     (sideScaleRect.rect.height / 2) - (spawnedItem.rect.height / 2)
                 )
             );
+    }
+    public void AddProductToInteraction(Product product)
+    {
+        SpawnProductInsideSideScale(DayManager.Instance.products[(int)product.type]);
+        productsList.AddProductToProducts_Quantity_Pair(product);
     }
 }

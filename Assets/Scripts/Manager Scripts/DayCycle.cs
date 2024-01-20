@@ -66,6 +66,7 @@ public class DayCycle : Singleton<DayCycle>
 
         StopCustomers = false;
 
+
         if (howMuchAfterStartEvents + howMuchBeforeEndEvents + maxBetweenEvents * howManyEvents > DayTimeLeft)
         {
             Debug.LogError("NIE DA SIE WYGENEROWAC TYLU PROBLEMOW W TAK KROTKIM CZASIE");

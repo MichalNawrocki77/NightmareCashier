@@ -7,9 +7,12 @@ using UnityEngine.UI;
 
 public class Product : MonoBehaviour
 {
+    //Zrob tak zeby na liscie produktow sie tez pokazywala waga pojedynczego produktu, ilosc niech bedzie po lewej stronie, wysokosc pomiedzy cene i wage
 
     Image img;
-    public ProductType type;
+    [field: SerializeField] public ProductType type { get; private set; }
+    [field: SerializeField] public float price { get; private set; }
+    [field: SerializeField] public float weight { get; private set; }
     [field: SerializeField] public PossibleInteractionType interactionType { get; private set; }
     [field: SerializeField] public Sprite sprite { get; private set; }
 
