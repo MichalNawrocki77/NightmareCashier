@@ -27,31 +27,36 @@ public class AddProduct_Panel : MonoBehaviour
         {
             quantity = value;
             productQuantityLabel.text = quantity.ToString();
+            SetWeightText(Quantity * product.weight);
         }
     }
-    float weight;
     /// <summary>
     /// Method that populates all the labels and image of the Panel to the product that is intended to be added
     /// </summary>
     /// <param name="product">Product that is to be added</param>
     public void InitializePanel(Product product)
     {
+        this.product = product;
         productDisplayedImg.sprite = product.sprite;
         productNameLabel.text = product.name;
-        productQuantityLabel.text = 0.ToString();
+        Quantity = 0;
         SetWeightText(0);
     }
     /// <summary>
     /// Method that lets you update the Panel's weight label by only passing the integer. The method will format the text as follows $"{weight} kg"
     /// </summary>
     /// <param name="weight">weight in integers</param>
-    void SetWeightText(int weight)
+    void SetWeightText(float weight)
     {
-        productWeightLabel.text = $"{weight} kg";
+        productWeightLabel.text = $"{weight.ToString("#,##")} kg";
     }
     public void AddButtonClicked()
     {
-        interaction.AddProductToInteraction(product);
+        for(int i = 0;i<Quantity;i++)
+        {
+            interaction.AddProductToInteraction(product);
+        }  
+        gameObject.SetActive(false);
     }
     public void PlusButtonClicked()
     {
