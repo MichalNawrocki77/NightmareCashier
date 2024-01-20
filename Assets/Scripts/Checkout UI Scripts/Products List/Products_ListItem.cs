@@ -11,7 +11,52 @@ using UnityEngine;
 public class Products_ListItem : MonoBehaviour
 {
     public Product product;
+    [HideInInspector]
+    public ModifyProduct_Panel modifyProductPanel;
+
+    public int Quantity
+    {
+        get
+        {
+            return quantity;
+        }
+        private set
+        {
+            quantity = value;
+            SetQuantityLabelText(quantity);
+        }
+    }
     int quantity;
+    
+    
+    public float FullPrice
+    {
+        get
+        {
+            return fullPrice;
+        }
+        private set
+        {
+            fullPrice = value * Quantity;
+            SetFullPriceLabelText(fullPrice);
+        }
+    }
+    float fullPrice;
+    
+    public float FullWeight
+    {
+        get
+        {
+            return fullWeight;
+        }
+        private set
+        {
+            fullWeight = value;
+            SetFullWeightLabelText(FullWeight);
+        }
+    }
+    float fullWeight;
+
     [SerializeField] Image listItemImageComponent;
     [SerializeField] TextMeshProUGUI productNameLabel;
     [SerializeField] TextMeshProUGUI quantityLabel;
@@ -22,21 +67,19 @@ public class Products_ListItem : MonoBehaviour
 
     private void Awake()
     {
-        //When a new ListItem is instantiated quantity is supposed to be 1. The reason it is in awake and not in start is that the initial adding of ListItems in ProductList is called alongside instantiate(), and since awake only awake is called when instantiate is called and not start, the quantity has to be set in awake (so that when ListItems, adds another product of same type, the quantity is properly set to 1, and not the int default value of 0)
-        quantity = 1;
+        //When a new ListItem is instantiated quantity is supposed to be 1. The reason it is in awake and not in start is that the initial adding of ListItems in ProductList is called alongside instantiate(), and since only awake is called alongside instantiate and has to wait for the next frame update, the quantity has to be set in awake (so that when ProductsList adds another product of same type, the quantity will properly start incrementing from 1, and not the int default value of 0)
+        Quantity = 1;
     }
     private void Start()
     {
         listItemImageComponent.sprite = product.sprite;
         productNameLabel.text = product.name;
-        
-        SetQuantityLabelText(quantity);
 
         SetPriceLabelText(product.price);
         SetProductWeightLabelText(product.weight);
 
-        SetFullPriceLabelText(product.price * quantity);
-        SetFullWeightLabelText(product.weight * quantity);
+        FullPrice = product.price * Quantity;
+        FullWeight = product.weight * Quantity;
     }
 
     #region labels text setters
@@ -81,16 +124,27 @@ public class Products_ListItem : MonoBehaviour
         fullWeightLabel.text = $"{weight}kg";
     }
     #endregion
+    
     public void UpdateQuantity(int newQuantity=0)
     {
-        quantity = newQuantity;
-        SetQuantityLabelText(quantity);
+        Quantity = newQuantity;
+
         SetFullPriceLabelText(product.price * quantity);
         SetFullWeightLabelText(product.weight * quantity);
+    }
+    public void FixListItemProperties(int newQuantity)
+    {
+        Quantity = newQuantity;
+        FullWeight = Quantity * product.weight;
+        FullPrice = Quantity * product.price;
     }
     public void IncrementQuantity()
     {
         UpdateQuantity(++quantity);
     }
-
+    public void OnListItemClick()
+    {
+        modifyProductPanel.gameObject.SetActive(true);
+        modifyProductPanel.InitializePanel(Quantity, FullWeight, this);
+    }
 }

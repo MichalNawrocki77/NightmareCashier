@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ProductsList : MonoBehaviour
 {
-    //Dictionary<Product, int> products_Quantity_Pair;
+    //just a band aid way of giving each ProductListItem a reference to the modifyProductPanel (this script does not need this reference, the other script does and it would be hard to get it otherwise);
+    [SerializeField] ModifyProduct_Panel modifyProductPanel;
     Dictionary<Product, Products_ListItem> product_ProductListItem_Pair;
-
     [SerializeField] GameObject productListItem;
     private void Awake()
     {
@@ -26,6 +26,7 @@ public class ProductsList : MonoBehaviour
         {
             product_ProductListItem_Pair[product] = Instantiate(productListItem, transform).GetComponent<Products_ListItem>();
             product_ProductListItem_Pair[product].product = product;
+            product_ProductListItem_Pair[product].modifyProductPanel = modifyProductPanel;
         }
     }
 }

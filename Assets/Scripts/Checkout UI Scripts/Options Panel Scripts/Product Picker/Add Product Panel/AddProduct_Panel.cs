@@ -54,7 +54,7 @@ public class AddProduct_Panel : MonoBehaviour
     {
         for(int i = 0;i<Quantity;i++)
         {
-            interaction.AddProductToInteraction(product);
+            interaction.AddProductToProductsList(product);
         }  
         gameObject.SetActive(false);
     }

@@ -47,4 +47,8 @@ public class Interaction : MonoBehaviour
         SpawnProductInsideSideScale(DayManager.Instance.products[(int)product.type]);
         productsList.AddProductToProducts_Quantity_Pair(product);
     }
+    public void AddProductToProductsList(Product product)
+    {
+        productsList.AddProductToProducts_Quantity_Pair(product);
+    }
 }
