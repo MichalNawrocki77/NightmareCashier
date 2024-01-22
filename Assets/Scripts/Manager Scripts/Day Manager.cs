@@ -25,13 +25,18 @@ public class DayManager : Singleton<DayManager>
     public List<GameObject> products;
     [HideInInspector] public List<Product> productList;
 
+    [Tooltip("Minimum time in seconds for customers to spawn")]
+    public int minCustomerSpawnInterval;
+    [Tooltip("Maximum time in seconds for customers to spawn")]
+    public int maxCustomerSpawnInterval;
+
     [Tooltip("Minimum time in seconds for customers to go to next product shelf")]
-    public int minCustomerWait;
+    public int minCustomerShelfWait;
     [Tooltip("Maximum time in seconds for customers to go to next product shelf")]
-    public int maxCustomerWait;
+    public int maxCustomerShelfWait;
 
     public SelfServiceCheckoutQueue selfServiceQueue;
-    [Tooltip("Make sure to not add self service queue to this list, since that has it's own field")]
+    [Tooltip("Make sure to not add self service queue to this list, since that has it's own field.")]
     public List<CheckoutQueue> Queues;
 
     public bool spawnCustomers;
@@ -45,7 +50,6 @@ public class DayManager : Singleton<DayManager>
     [SerializeField]
     GameObject StrikeUI;
 
-    public int points = 0;
     public int strikes = 0;
 
     public void AddStrike()
@@ -72,15 +76,13 @@ public class DayManager : Singleton<DayManager>
     }
     private void Start()
     {
-   
-    
-
         FixChancesOfInteractionOccuring();
 
         StartCoroutine(CustomerSpawningCoroutine());
-        
     }
-    //This method makes sure that the values of ChancesOfInteractionOccuring list stays within 0-100 range (in case somebody inputs wrong values)
+    /// <summary>
+    /// This method makes sure that the values of ChancesOfInteractionOccuring list stays within 0-100 range (in case somebody inputs wrong values)
+    /// </summary>
     private void FixChancesOfInteractionOccuring()
     {
         for (int i = 0; i < chancesOfInteractionFailuresOccuring.Count; i++)
@@ -96,15 +98,6 @@ public class DayManager : Singleton<DayManager>
         }
     }
 
-
-    public void AddPoints(int ptk)
-    {
-        if (!DayCycle.Instance.eventStarted)
-        {
-            points += ptk;
-        }
-    }
-
     IEnumerator CustomerSpawningCoroutine()
     {
         int id = 0;
@@ -114,7 +107,7 @@ public class DayManager : Singleton<DayManager>
             temp.transform.localPosition = Vector3.zero;
             temp.name = "Customer"+id;
             id++;
-            yield return new WaitForSeconds(Random.Range(minCustomerWait, maxCustomerWait));
+            yield return new WaitForSeconds(Random.Range(minCustomerSpawnInterval, maxCustomerSpawnInterval));
         }
     }
 

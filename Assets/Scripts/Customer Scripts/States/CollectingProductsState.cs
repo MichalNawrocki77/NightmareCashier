@@ -71,7 +71,7 @@ public class CollectingProductsState : CustomerState
     IEnumerator WaitForNextDestination()
     {
         yield return new WaitForSeconds(Random.Range(
-            DayManager.Instance.minCustomerWait, DayManager.Instance.maxCustomerWait));
+            DayManager.Instance.minCustomerShelfWait, DayManager.Instance.maxCustomerShelfWait));
         SetNextDestination();
         currentNavigationCoroutine = null;
     }

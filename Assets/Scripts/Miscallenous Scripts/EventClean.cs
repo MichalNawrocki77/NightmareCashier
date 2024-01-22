@@ -34,6 +34,8 @@ public class EventClean : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
+        DayCycle.Instance.itsokEvent = true;
+        DayCycle.Instance.HideEventShowImage();
         inCol = false;
         DayCycle.Instance.currEvent = null;
     }

@@ -18,7 +18,9 @@ public class DayCycle : Singleton<DayCycle>
     [SerializeField] int maxBetweenEvents;
     [SerializeField] int minBetweenEvents;
     [SerializeField] int howManyEvents;
-    [SerializeField] int howLongEventFail;
+
+    public int howLongEventFail;
+    [SerializeField] int howLongToAcceptEvent;
 
 
     [SerializeField]
@@ -39,7 +41,34 @@ public class DayCycle : Singleton<DayCycle>
 
 
 
+    void GenerateEventTimestamps()
+    {
+        bool canExit = false;
 
+        while (!canExit)
+        {
+            timestamps.Clear();
+
+            for (int i = 0; i < howManyEvents; i++)
+            {
+                timestamps.Add(Random.Range(howMuchAfterStartEvents, (int)DayTimeLeft - howMuchBeforeEndEvents));
+            }
+            timestamps.Sort();
+
+            for(int i = 1;i< timestamps.Count; i++)
+            {
+                if ( (timestamps[i] - timestamps[i-1] > maxBetweenEvents)
+                    ||
+                    (timestamps[i] - timestamps[i - 1] < minBetweenEvents))
+                {
+                    break;
+                }
+                canExit = true;
+            }
+        }
+
+        
+    }
     private void EventNumberGenerator()
     {  
         for (int i = 0; i < howManyEvents; i++)
@@ -88,6 +117,7 @@ public class DayCycle : Singleton<DayCycle>
 
         StopCustomers = false;
 
+        
 
         if (howMuchAfterStartEvents + howMuchBeforeEndEvents + maxBetweenEvents * howManyEvents > DayTimeLeft)
         {
@@ -95,7 +125,7 @@ public class DayCycle : Singleton<DayCycle>
         }
         else
         {
-            EventNumberGenerator();
+            GenerateEventTimestamps();
         }
     }
 
@@ -112,9 +142,7 @@ public class DayCycle : Singleton<DayCycle>
 
 
         if (currEvent == null)
-        {
-
-            eventShowImg.GetComponent<RawImage>().enabled = false;
+        { 
             eventStarted = false;
         }
         else
@@ -124,7 +152,6 @@ public class DayCycle : Singleton<DayCycle>
 
         if (DayTimeLeft >= 0 && eventStarted == false)
         {
-
 
             DayTimeLeft -= Time.fixedDeltaTime;
 
@@ -140,10 +167,8 @@ public class DayCycle : Singleton<DayCycle>
           //  PlayerPrefs.SetString(PlayerPrefs.GetString("currentSave"), (int.Parse(gettedSaves[0]) +1).ToString() + ";0");
 
             Time.timeScale = 0;
-            endScreen.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = $"Gratulacje przetrwa³eœ ca³¹ noc, twój wynik to: { DayManager.Instance.points}";
+            endScreen.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = $"Gratulacje przetrwa³eœ ca³¹ noc, iloœæ twoich b³êdów to: { DayManager.Instance.strikes}";
             endScreen.SetActive(true);
-           
-
         }
 
 
@@ -167,20 +192,31 @@ public class DayCycle : Singleton<DayCycle>
     IEnumerator TooLate()
     {
      
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(howLongToAcceptEvent);
 
         if (itsok)
         {
             yield break;
         }
         DayManager.Instance.AddStrike();
-        eventShowImg.GetComponent<RawImage>().enabled = false;
+        HideEventShowImage();
         DayTimeLeft -= 1;
         coworkerPad.GetComponent<BoxCollider2D>().enabled = false;
         coworkerPad.GetComponent<SpriteRenderer>().color = Color.white;
 
     }
 
+    public void ResetEventsVariables()
+    {
+        currEvent = null;
+        itsok = false;
+        itsokEvent = false;
+        StopCoroutine(TooLate());
+    }
+    public void HideEventShowImage()
+    {
+        eventShowImg.GetComponentInChildren<RawImage>().enabled = false;
+    }
     public void ChangeShifts()
     {
         SceneManager.LoadScene("SHOP");

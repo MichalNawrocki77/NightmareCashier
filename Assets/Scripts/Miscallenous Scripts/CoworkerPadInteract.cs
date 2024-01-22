@@ -35,15 +35,17 @@ public class CoworkerPadInteract : MonoBehaviour
 
     IEnumerator Fail()
     {
-        yield return new  WaitForSecondsRealtime(15f);
+        yield return new  WaitForSecondsRealtime(DayCycle.Instance.howLongEventFail);
 
         if (DayCycle.Instance.itsokEvent)
         {
+            DayCycle.Instance.ResetEventsVariables();
             yield break;
         }
         possibleEvents[ran].SetActive(false);
         DayManager.Instance.AddStrike();
-        DayCycle.Instance.currEvent = null;
+        DayCycle.Instance.HideEventShowImage();
+        DayCycle.Instance.ResetEventsVariables();
 
     }
 }
