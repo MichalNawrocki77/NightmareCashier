@@ -86,7 +86,10 @@ MonoBehaviour:
   maxBetweenEvents: 2
   minBetweenEvents: 1
   howManyEvents: 2
+<<<<<<< HEAD
+=======
   source: {fileID: 0}
+>>>>>>> Mikolaj
   timestamps: 
   eventStarted: 0
   currEvent: {fileID: 0}

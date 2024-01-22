@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 
 using Assets.Scripts.Enums;
 
@@ -40,8 +41,26 @@ public class DayManager : Singleton<DayManager>
 
 
 
+
+    [SerializeField]
+    GameObject StrikeUI;
+
     public int points = 0;
-  
+    public int strikes = 0;
+
+    public void AddStrike()
+    {
+        strikes += 1;
+    }
+
+    private void FixedUpdate()
+    {
+
+
+        StrikeUI.GetComponent<TextMeshProUGUI>().text = $"Strike: {strikes}";
+
+
+    }
 
     private void Awake()
     {
@@ -53,6 +72,9 @@ public class DayManager : Singleton<DayManager>
     }
     private void Start()
     {
+   
+    
+
         FixChancesOfInteractionOccuring();
 
         StartCoroutine(CustomerSpawningCoroutine());
