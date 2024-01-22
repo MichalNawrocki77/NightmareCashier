@@ -121,9 +121,6 @@ public class Interaction : MonoBehaviour
             yield break;
         }
 
-
-
-
          customer.SetShowingFailureIndicator(true);
          yield return new WaitUntil(() => isAcceptClicked);
 
@@ -133,12 +130,16 @@ public class Interaction : MonoBehaviour
             Debug.Log("AddStrike()");
             customer.SetShowingFailureIndicator(false);
             customer.sm.ChangeState(customer.goingHomeState);
-            Destroy(gameObject);
+            player.Input.PlayerActionMap.MovementAction.Enable();
+
+            Destroy(transform.parent.gameObject);
             yield break;
         }
         //If failure wasnt detected after accepting purchase resolve with following code 
         customer.SetShowingFailureIndicator(false);
         customer.sm.ChangeState(customer.goingHomeState);
-        Destroy(gameObject);
+        player.Input.PlayerActionMap.MovementAction.Enable();
+
+        Destroy(transform.parent.gameObject);
     }
 }

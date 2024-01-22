@@ -67,7 +67,7 @@ public class Checkout : MonoBehaviour
     {
         InteractionScript.IsVisible = true;
 
-        playerScript.DisableMovement();
+        playerScript.Input.PlayerActionMap.MovementAction.Disable();
         playerScript.InteractionPressed -= ShowInteraction;
         playerScript.InteractionPressed += HideInteraction;
     }
