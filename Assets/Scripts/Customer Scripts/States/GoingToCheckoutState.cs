@@ -30,7 +30,7 @@ public class GoingToCheckoutState : CustomerState
         if (customer.IsDestinationReached() && currentCoroutine is null)
         {
             currentCoroutine = customer.StartCoroutine(
-                customer.checkout.InteractionScript.AddingProductsCoroutine());
+                customer.checkout.InteractionScript.CustomerInteractingCoroutine());
         }
     }
 

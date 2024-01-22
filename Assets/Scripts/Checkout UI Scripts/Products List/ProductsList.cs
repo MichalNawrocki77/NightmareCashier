@@ -5,6 +5,8 @@ using Assets.Scripts.Enums;
 
 using Unity.VisualScripting;
 
+using UnityEditor.SearchService;
+
 using UnityEngine;
 
 public class ProductsList : MonoBehaviour
@@ -13,15 +15,19 @@ public class ProductsList : MonoBehaviour
     [SerializeField] ModifyProduct_Panel modifyProductPanel;
     Dictionary<Product, Products_ListItem> product_ProductListItem_Pair;
     [SerializeField] GameObject productListItem;
+    Dictionary<Product, int> trueQuantity;
+    float trueWeight;
     private void Awake()
     {
         product_ProductListItem_Pair = new Dictionary<Product, Products_ListItem>();
+        trueQuantity = new Dictionary<Product, int>();
+        trueWeight = 0;
     }
     /// <summary>
     /// Automatically updates Product_ProductListItem_Pair, if new ListItem is supposed to be created
     /// </summary>
     /// <param name="product"></param>
-    public void AddProductToProducts_Quantity_Pair(Product product, InteractionFailureType failureType)
+    void AddProductToProducts_Quantity_Pair(Product product, InteractionFailureType failureType)
     {
         switch (failureType)    
         {
@@ -41,8 +47,18 @@ public class ProductsList : MonoBehaviour
                 break;
         }
 
-        
     }
+    public void AddProductAsCustomer(Product product, InteractionFailureType failureType)
+    {
+        AddProductToProducts_Quantity_Pair(product, failureType);
+        AddProductToTrueValues(product);
+    }
+    public void AddProductFromPanel(Product product)
+    {
+        //Since I add it from Panel it never supposed to have a failure
+        AddProductToProducts_Quantity_Pair(product, InteractionFailureType.None);
+    }
+
     void AddProductWithoutFailure(Product product)
     {
         if (product_ProductListItem_Pair.ContainsKey(product))
@@ -72,9 +88,40 @@ public class ProductsList : MonoBehaviour
             ScrewUpWeight(product);
         }
     }
+    void AddProductToTrueValues(Product product)
+    {
+        //Podczas sprawdzania CheckForFailures wypierdala blad, bo jak koles dodaje produkt w korutynie to wzywasz t¹ metoda, i jak dodajesz recznie produkt to ta metoda tez jest wzywana wiec s¹ zle wartoœci w TrueQuantity. Napraw
+        if (trueQuantity.ContainsKey(product))
+        {
+            trueQuantity[product]++;
+        }
+        else
+        {
+            trueQuantity[product] = 1;
+        }
+        trueWeight += product.weight;
+    }
     void ScrewUpWeight(Product product)
     {
         product_ProductListItem_Pair[product].FullWeight += Random.Range(
                 -product.weight, product.weight);
+    }
+
+    public bool CheckForFailures()
+    {
+        float interactionsWeight = 0;
+        foreach(KeyValuePair<Product,Products_ListItem> pair in product_ProductListItem_Pair)
+        {
+            if( pair.Value.Quantity != trueQuantity[pair.Key])
+            {
+                return true;
+            }
+            interactionsWeight += pair.Value.Quantity * pair.Key.weight;
+        }
+        if (trueWeight != interactionsWeight)
+        {
+            return true;
+        }
+        return false;
     }
 }

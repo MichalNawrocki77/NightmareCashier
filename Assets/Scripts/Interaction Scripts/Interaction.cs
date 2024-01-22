@@ -1,10 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
+
 using Assets.Scripts.Enums;
 
 using Unity.VisualScripting;
 
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Interaction : MonoBehaviour
 {
@@ -28,15 +32,15 @@ public class Interaction : MonoBehaviour
     }
     private bool isVisible;
 
+    [HideInInspector]
+    public bool isAcceptClicked;
+
     InteractionFailureType failureType;
 
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-    }
-    private void Update()
-    {
-        Debug.Log("Still Breathing");
+        isAcceptClicked = false;
     }
     internal void InjectDependencies(Customer customer, Player player)
     {
@@ -68,7 +72,7 @@ public class Interaction : MonoBehaviour
     public void AddProductToInteraction(Product product, InteractionFailureType failureType)
     {
         SpawnProductInsideSideScale(DayManager.Instance.products[(int)product.type]);
-        productsList.AddProductToProducts_Quantity_Pair(product, failureType);
+        productsList.AddProductAsCustomer(product, failureType);
     }
     /// <summary>
     /// Method used for adding products to product list via AddProduct_Panel
@@ -77,22 +81,13 @@ public class Interaction : MonoBehaviour
     public void AddProductToProductsList(Product product)
     {
         //since this is supposed to always add a product I can simply pass None, for the failureType enum
-        productsList.AddProductToProducts_Quantity_Pair(
-            product, InteractionFailureType.None);
+        productsList.AddProductFromPanel(product);
     }
-    /// <summary>
-    /// returns true if failure has occured
-    /// </summary>
-    /// <returns></returns>
-    public bool GetFailureStatus()
-    {
-        return failureType != InteractionFailureType.None;
-    }
-    public IEnumerator AddingProductsCoroutine()
+    public IEnumerator CustomerInteractingCoroutine()
     {
         foreach (Product product in customer.products)
         {
-            
+
             //so far the wait in between product adding is 2s, define it in DayManager in the future
             yield return new WaitForSeconds(2);
 
@@ -113,12 +108,37 @@ public class Interaction : MonoBehaviour
             else
             {
                 failureType = InteractionFailureType.None;
+                Debug.Log(failureType);
             }
 
             AddProductToInteraction(product, failureType);
                
-
-            yield return new WaitWhile(GetFailureStatus);
         }
+
+        if (productsList.CheckForFailures() == false)
+        {
+            customer.sm.ChangeState(customer.goingHomeState);
+            yield break;
+        }
+
+
+
+
+         customer.SetShowingFailureIndicator(true);
+         yield return new WaitUntil(() => isAcceptClicked);
+
+        if(productsList.CheckForFailures())
+        {
+            //Code that resolves interaction if failure is detected after accepting purchase
+            Debug.Log("AddStrike()");
+            customer.SetShowingFailureIndicator(false);
+            customer.sm.ChangeState(customer.goingHomeState);
+            Destroy(gameObject);
+            yield break;
+        }
+        //If failure wasnt detected after accepting purchase resolve with following code 
+        customer.SetShowingFailureIndicator(false);
+        customer.sm.ChangeState(customer.goingHomeState);
+        Destroy(gameObject);
     }
 }

@@ -6274,6 +6274,7 @@ GameObject:
   - component: {fileID: 3096199982571291870}
   - component: {fileID: 8168299038592640853}
   - component: {fileID: 2545436321774623001}
+  - component: {fileID: 3829580746828488927}
   m_Layer: 5
   m_Name: AcceptPurchase Panel
   m_TagString: Untagged
@@ -6342,6 +6343,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3829580746828488927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5597356164734773171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bf3795f43629524db3c18d56e56bb59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interaction: {fileID: 3456909332265513200}
+  productsList: {fileID: 8317911936595035522}
 --- !u!1 &5606380922579778034
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,7 +6954,6 @@ GameObject:
   - component: {fileID: 5250843542445632782}
   - component: {fileID: 6479737372529394553}
   - component: {fileID: 1900690844346681951}
-  - component: {fileID: 2915539217989517793}
   m_Layer: 5
   m_Name: Accept_Btn
   m_TagString: Untagged
@@ -7049,20 +7063,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6479737372529394553}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!114 &2915539217989517793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6591526856981707518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e092fe59befc2647a46750b112b43f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interaction: {fileID: 6557278497993895315}
+      m_Calls:
+      - m_Target: {fileID: 3829580746828488927}
+        m_TargetAssemblyTypeName: AcceptPurchase_Panel, Assembly-CSharp
+        m_MethodName: OnAcceptPurchaseClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6601251546424831484
 GameObject:
   m_ObjectHideFlags: 0
@@ -8592,6 +8605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sideScaleRect: {fileID: 7907612979875441674}
   productsList: {fileID: 8317911936595035522}
+  isAcceptClicked: 0
 --- !u!225 &4273268172193743540
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -11,8 +11,10 @@ using Random = UnityEngine.Random;
 
 public class Customer : MonoBehaviour
 {
-    [HideInInspector] public List<Product> products;
+    Animator animator;
 
+    [HideInInspector] public List<Product> products;
+    
     #region Navigation
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public int minSecondsToGetNextProduct;
@@ -53,6 +55,8 @@ public class Customer : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        animator = GetComponent<Animator>();
 
         InitializeItems();
         //Usually you call this method in awake, but since the 1st state's enter()'s InitializeShelves() Relies on the products List not being null, I need to call InitializeShelves() AFTER calling InitializeItems()
@@ -110,5 +114,11 @@ public class Customer : MonoBehaviour
         agent.SetDestination(checkout.navMeshDestination.position);
         sm.ChangeState(goingToCheckoutState);
     }
+    #region animations
+    public void SetShowingFailureIndicator(bool isShowing)
+    {
+        animator.SetBool("IsFailurePlaying", isShowing);
+    }
 
+    #endregion
 }

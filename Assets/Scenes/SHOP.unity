@@ -36474,10 +36474,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer
       objectReference: {fileID: 0}
-    - target: {fileID: 4286515926957810409, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37869,11 +37865,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: chancesOfInteractionFailuresOccuring.Array.data[0]
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: chancesOfInteractionFailuresOccuring.Array.data[1]
-      value: 5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: chancesOfInteractionFailuresOccuring.Array.data[2]

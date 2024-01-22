@@ -152,6 +152,5 @@ public class Products_ListItem : MonoBehaviour
     float GetFloatWIthTwoDecimalPlaces(float number)
     {
         return Mathf.Round(number*100) / 100;
-
     }
 }
