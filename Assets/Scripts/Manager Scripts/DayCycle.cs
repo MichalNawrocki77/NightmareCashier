@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class DayCycle : Singleton<DayCycle>
 {
@@ -17,6 +18,7 @@ public class DayCycle : Singleton<DayCycle>
     [SerializeField] int maxBetweenEvents;
     [SerializeField] int minBetweenEvents;
     [SerializeField] int howManyEvents;
+    [SerializeField] int howLongEventFail;
 
 
     [SerializeField]
@@ -30,6 +32,10 @@ public class DayCycle : Singleton<DayCycle>
     public GameObject currEvent;
 
     [SerializeField] GameObject clockTime;
+
+    [SerializeField] GameObject eventShowImg;
+
+    [SerializeField] GameObject endScreen;
 
 
 
@@ -100,12 +106,14 @@ public class DayCycle : Singleton<DayCycle>
 
 
 
-
+        
 
 
 
         if (currEvent == null)
         {
+
+            eventShowImg.GetComponent<RawImage>().enabled = false;
             eventStarted = false;
         }
         else
@@ -126,17 +134,25 @@ public class DayCycle : Singleton<DayCycle>
         {
             StopCustomers = true;
 
-            string[] gettedSaves = PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";"); 
+            //string[] gettedSaves = PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";"); 
 
-            PlayerPrefs.SetString(PlayerPrefs.GetString("currentSave"), (int.Parse(gettedSaves[0]) +1).ToString() + ";0");
-            SceneManager.LoadScene("SHOP");
+          //  PlayerPrefs.SetString(PlayerPrefs.GetString("currentSave"), (int.Parse(gettedSaves[0]) +1).ToString() + ";0");
+
+            Time.timeScale = 0;
+            endScreen.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = $"Gratulacje przetrwa³eœ ca³¹ noc, twój wynik to: { DayManager.Instance.points}";
+            endScreen.SetActive(true);
+           
 
         }
+
+
 
         for(int i = 0; i < timestamps.Count; i++)
         {
             if (Mathf.Round(DayTimeLeft) == timestamps[i])
             {
+                StartCoroutine(TooLate());
+                eventShowImg.GetComponent<RawImage>().enabled = true;
                 DayTimeLeft -= 1;
                 coworkerPad.GetComponent<BoxCollider2D>().enabled = true;
                 coworkerPad.GetComponent<SpriteRenderer>().color = Color.green;
@@ -144,4 +160,34 @@ public class DayCycle : Singleton<DayCycle>
             }
         }
     }
+
+    public  bool itsok = false;
+    public bool itsokEvent = false;
+    IEnumerator TooLate()
+    {
+     
+        yield return new WaitForSecondsRealtime(5f);
+
+        if (itsok)
+        {
+            yield break;
+        }
+        DayManager.Instance.AddStrike();
+        eventShowImg.GetComponent<RawImage>().enabled = false;
+        DayTimeLeft -= 1;
+        coworkerPad.GetComponent<BoxCollider2D>().enabled = false;
+        coworkerPad.GetComponent<SpriteRenderer>().color = Color.white;
+
+    }
+
+    public void ChangeShifts()
+    {
+        SceneManager.LoadScene("SHOP");
+    }
+    public void EndShift()
+    {
+        SceneManager.LoadScene("MENU");
+    }
+
+
 }
