@@ -9,24 +9,8 @@ public class GlobalSettings : MonoBehaviour
     GameObject slider1;
     [SerializeField]
     GameObject slider2;
-    [SerializeField]
-    GameObject fullscreen;
 
- 
-
-    public void Fullscreen()
-    {
-        Screen.fullScreen = !Screen.fullScreen;
-
-        if(fullscreen.transform.GetChild(0).GetChild(0).GetComponent<RawImage>().color == Color.black)
-        {
-            fullscreen.transform.GetChild(0).GetChild(0).GetComponent<RawImage>().color = Color.white;
-        }
-        else
-        {
-            fullscreen.transform.GetChild(0).GetChild(0).GetComponent<RawImage>().color = Color.black;
-        }
-    }
+  
 
     private void Awake()
     {
