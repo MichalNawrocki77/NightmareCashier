@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class DayCycle : Singleton<DayCycle>
 {
@@ -28,7 +29,7 @@ public class DayCycle : Singleton<DayCycle>
     
     public GameObject currEvent;
 
-
+    [SerializeField] GameObject clockTime;
 
 
 
@@ -114,7 +115,11 @@ public class DayCycle : Singleton<DayCycle>
 
         if (DayTimeLeft >= 0 && eventStarted == false)
         {
+
+
             DayTimeLeft -= Time.fixedDeltaTime;
+
+            clockTime.GetComponent<TMPro.TextMeshProUGUI>().text = $"SHIFT TIME: {Mathf.Floor(DayTimeLeft)} min";
         }
        
         if(DayTimeLeft <= 0)
