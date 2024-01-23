@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Assets.Scripts.Enums;
-using Unity.VisualScripting;
-
-using UnityEditor.SearchService;
 
 using UnityEngine;
 

@@ -49,7 +49,7 @@ public class Checkout : MonoBehaviour
     }
     public void StartInteraction()
     {
-        interactionCurrent = Instantiate(interaction);
+        interactionCurrent = Instantiate(interaction,transform);
         InteractionScript = interactionCurrent.GetComponentInChildren<Interaction>();
         InteractionScript.InjectDependencies(CustomerCurrent,playerScript);
 

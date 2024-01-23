@@ -60,10 +60,7 @@ public class Customer : MonoBehaviour
 
         InitializeItems();
         //Usually you call this method in awake, but since the 1st state's enter()'s InitializeShelves() Relies on the products List not being null, I need to call InitializeShelves() AFTER calling InitializeItems()
-        //sm.Initialize(collectingProductsState);
-
-        //For testing purposes initial state was changed
-        sm.Initialize(atQueueState);
+        sm.Initialize(collectingProductsState);
     }
 
     // Update is called once per frame
