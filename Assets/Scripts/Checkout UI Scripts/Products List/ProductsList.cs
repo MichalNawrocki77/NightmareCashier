@@ -65,6 +65,7 @@ public class ProductsList : MonoBehaviour
         {
             product_ProductListItem_Pair[product] = Instantiate(productListItem, transform).GetComponent<Products_ListItem>();
             product_ProductListItem_Pair[product].product = product;
+            product_ProductListItem_Pair[product].UpdateUIValues();
             product_ProductListItem_Pair[product].modifyProductPanel = modifyProductPanel;
         }
     }
@@ -79,6 +80,7 @@ public class ProductsList : MonoBehaviour
         {
             product_ProductListItem_Pair[product] = Instantiate(productListItem, transform).GetComponent<Products_ListItem>();
             product_ProductListItem_Pair[product].product = product;
+            product_ProductListItem_Pair[product].UpdateUIValues();
             product_ProductListItem_Pair[product].modifyProductPanel = modifyProductPanel;
 
             ScrewUpWeight(product);
@@ -105,19 +107,22 @@ public class ProductsList : MonoBehaviour
 
     public bool CheckForFailures()
     {
-        float interactionsWeight = 0;
+        //float interactionsWeight = 0;
         foreach(KeyValuePair<Product,Products_ListItem> pair in product_ProductListItem_Pair)
         {
             if( pair.Value.Quantity != trueQuantity[pair.Key])
             {
                 return true;
             }
-            interactionsWeight += pair.Value.Quantity * pair.Key.weight;
+            if(pair.Value.FullWeight != trueQuantity[pair.Key] * pair.Key.weight)
+            {
+                return true;
+            }
         }
-        if (trueWeight != interactionsWeight)
-        {
-            return true;
-        }
+        //if (trueWeight != interactionsWeight)
+        //{
+        //    return true;
+        //}
         return false;
     }
 }

@@ -224,10 +224,13 @@ public class DayCycle : Singleton<DayCycle>
     }
     public void ChangeShifts()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("SHOP");
     }
     public void EndShift()
     {
+
+        Time.timeScale = 1;
         SceneManager.LoadScene("MENU");
     }
 

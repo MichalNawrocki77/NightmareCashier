@@ -122,6 +122,7 @@ public class Interaction : MonoBehaviour
         {
             //If customer didn't have any problems, resolve with following
             customer.sm.ChangeState(customer.goingHomeState);
+            player.EnableMovement();
             checkout.DestroyInteraction();
             yield break;
         }

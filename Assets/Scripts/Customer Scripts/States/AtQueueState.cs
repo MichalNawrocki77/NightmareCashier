@@ -24,6 +24,8 @@ public class AtQueueState : CustomerState
             DayManager.Instance.selfServiceQueue.queuePositions.Count)
         {
             //If there is no place for him at the queue,let him walk around the store, but since I don't feel like making him walking around the store for now, let him go and collect products again :>
+            //also add a strike, because we don't want to let player not care about customers, but we also don't a situation that due to unlucky customer spawns and event triggers a player must take at least one strike
+            DayManager.Instance.AddStrike();
             customer.sm.ChangeState(customer.collectingProductsState);
             return;
         }

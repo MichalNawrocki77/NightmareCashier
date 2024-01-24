@@ -74,14 +74,7 @@ public class Products_ListItem : MonoBehaviour
     }
     private void Start()
     {
-        listItemImageComponent.sprite = product.sprite;
-        productNameLabel.text = product.name;
-
-        SetPriceLabelText(product.price);
-        SetProductWeightLabelText(product.weight);
-
-        FullWeight =  product.weight * Quantity;
-        FullPrice = product.price * Quantity;
+        
     }
 
     #region labels text setters
@@ -131,6 +124,17 @@ public class Products_ListItem : MonoBehaviour
     public void UpdateQuantity(int newQuantity=0)
     {
         Quantity = newQuantity;
+    }
+    public void UpdateUIValues()
+    {
+        listItemImageComponent.sprite = product.sprite;
+        productNameLabel.text = product.name;
+
+        SetPriceLabelText(product.price);
+        SetProductWeightLabelText(product.weight);
+
+        FullWeight = product.weight * Quantity;
+        FullPrice = product.price * Quantity;
     }
     public void FixListItemProperties(int newQuantity)
     {
