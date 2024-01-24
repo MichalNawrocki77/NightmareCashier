@@ -52,6 +52,10 @@ public class Player : MonoBehaviour
         Input.PlayerActionMap.MovementAction.Disable();
         movementVector = Vector2.zero;
     }
+    public void EnableMovement()
+    {
+        Input.PlayerActionMap.MovementAction.Enable();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -73,19 +77,6 @@ public class Player : MonoBehaviour
     {
         movementVector = obj.ReadValue<Vector2>();
     }
-    //public void SetInteractionActionEnable(bool enable)
-    //{
-    //    switch (enable)
-    //    {
-    //        case true:
-    //            Input.PlayerActionMap.InteractionAction.Enable();
-    //            break;
-
-    //        case false:
-    //            Input.PlayerActionMap.InteractionAction.Disable();
-    //            break;
-    //    }
-    //}
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Checkout"))

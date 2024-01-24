@@ -17,12 +17,18 @@ public class Checkout : MonoBehaviour
         set
         {
             customerCurrent = value;
+            //Na wypadek gdyby gracz stal przy kasie, do ktorej customer jest przypisywany
+            if (isPlayerInCollider && value is not null)
+            {
+                playerScript.InteractionPressed += ShowInteraction;
+            }
             if(customerCurrent is null)
             {
                 customerLeft?.Invoke(this);
             }
         }
     }
+    bool isPlayerInCollider;
     private Customer customerCurrent;
     [SerializeField] Player playerScript;
 
@@ -32,42 +38,37 @@ public class Checkout : MonoBehaviour
 
     public Transform navMeshDestination;
     public event Action<Checkout> customerLeft;  
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    int ChooseInteraction()
-    {
-        //so far I only roll for an int, later this method will have an actual way of choosing an interaction
-
-        //Use this method as a means of checking products of the customer to determine which products will throw problems;
-
-        //return Random.Range(0, interaction.Count);
-        return 0;
-    }
     public void StartInteraction()
     {
         interactionCurrent = Instantiate(interaction,transform);
         InteractionScript = interactionCurrent.GetComponentInChildren<Interaction>();
-        InteractionScript.InjectDependencies(CustomerCurrent,playerScript);
+        InteractionScript.InjectDependencies(CustomerCurrent,playerScript, this);
 
         InteractionScript.IsVisible = false;
     }
     public void HideInteraction()
     {
+        if(interactionCurrent is null)
+        {
+            return;
+        }
+
         InteractionScript.IsVisible = false;
 
-        playerScript.Input.PlayerActionMap.MovementAction.Enable();
+        playerScript.EnableMovement();
         playerScript.InteractionPressed -= HideInteraction;
         playerScript.InteractionPressed += ShowInteraction;
     }
     public void ShowInteraction()
     {
+        if(interactionCurrent is null)
+        {
+            return;
+        }
+
         InteractionScript.IsVisible = true;
 
-        playerScript.Input.PlayerActionMap.MovementAction.Disable();
+        playerScript.DisableMovement();
         playerScript.InteractionPressed -= ShowInteraction;
         playerScript.InteractionPressed += HideInteraction;
     }
@@ -75,11 +76,19 @@ public class Checkout : MonoBehaviour
     {
         customerLeft?.Invoke(this);
     }
+    public void DestroyInteraction()
+    {
+        Destroy(interactionCurrent.gameObject);
+        interactionCurrent = null;
+        playerScript.InteractionPressed -= ShowInteraction;
+        playerScript.InteractionPressed -= HideInteraction;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && interactionCurrent is not null)
+        if (collision.CompareTag("Player"))
         {
             playerScript.InteractionPressed += ShowInteraction;
+            isPlayerInCollider = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -87,6 +96,7 @@ public class Checkout : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             playerScript.InteractionPressed -= ShowInteraction;
+            isPlayerInCollider = false;
         }
     }
 }

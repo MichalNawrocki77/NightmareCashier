@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+
+using Unity.VisualScripting;
+
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class EventClean : MonoBehaviour
 {
- 
+    [SerializeField] Player player;
+    SpriteRenderer spriteRenderer;
     bool inCol = false;
+    private void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
@@ -17,11 +26,12 @@ public class EventClean : MonoBehaviour
         }
     }
 
-
+    
     private void Update()
     {
         if (inCol)
         {
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 StartCoroutine(Wait());
@@ -32,12 +42,25 @@ public class EventClean : MonoBehaviour
 
     IEnumerator Wait()
     {
-        yield return new WaitForSeconds(3f);
-        gameObject.SetActive(false);
+        player.DisableMovement();
+
+        Color fadeAwayColor = spriteRenderer.color;
+        float timeElapsed = 0f;
+        while (timeElapsed < DayCycle.Instance.howLongToCleanEvent)
+        {
+            fadeAwayColor.a = Mathf.Lerp(1, 0, timeElapsed / DayCycle.Instance.howLongToCleanEvent);
+            spriteRenderer.color = fadeAwayColor;
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        player.EnableMovement();
         DayCycle.Instance.itsokEvent = true;
-        DayCycle.Instance.HideEventShowImage();
+        DayCycle.Instance.HideEventDisclaimer();
         inCol = false;
         DayCycle.Instance.currEvent = null;
+        spriteRenderer.color = new Color(1, 1, 1, 1);
+        gameObject.SetActive(false);
     }
 
 

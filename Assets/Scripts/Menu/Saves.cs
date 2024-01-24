@@ -69,14 +69,11 @@ public class Saves : MonoBehaviour
 
                 PlayerPrefs.SetString(whichSave, "1;0");
 
-                //Debug.Log(PlayerPrefs.GetString("currentSave"));
                 SceneManager.LoadScene("SHOP");
             }
             else
             {
                 SceneManager.LoadScene("SHOP");
-                //string[] omg = PlayerPrefs.GetString(whichSave).Split(";");
-                // Debug.Log("shift: " + omg[0] + " zagadek rozwi¹zanych: " + omg[1]);
             }
 
             string[] gettedSaves  = PlayerPrefs.GetString(whichSave).Split(";");

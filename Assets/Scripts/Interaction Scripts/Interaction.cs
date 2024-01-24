@@ -12,6 +12,7 @@ using Random = UnityEngine.Random;
 
 public class Interaction : MonoBehaviour
 {
+    Checkout checkout;
     internal Customer customer;
     internal Player player;
     [SerializeField] RectTransform sideScaleRect;
@@ -28,6 +29,7 @@ public class Interaction : MonoBehaviour
         {
             isVisible = value;
             canvasGroup.alpha = isVisible ? 1 : 0;
+            canvasGroup.blocksRaycasts = isVisible;
         }
     }
     private bool isVisible;
@@ -42,10 +44,11 @@ public class Interaction : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         isAcceptClicked = false;
     }
-    internal void InjectDependencies(Customer customer, Player player)
+    internal void InjectDependencies(Customer customer, Player player, Checkout checkout)
     {
         this.customer = customer;
         this.player = player;
+        this.checkout = checkout;
     }
     void SpawnProductInsideSideScale(GameObject itemToSpawn)
     {
@@ -117,7 +120,9 @@ public class Interaction : MonoBehaviour
 
         if (productsList.CheckForFailures() == false)
         {
+            //If customer didn't have any problems, resolve with following
             customer.sm.ChangeState(customer.goingHomeState);
+            checkout.DestroyInteraction();
             yield break;
         }
 
@@ -127,19 +132,19 @@ public class Interaction : MonoBehaviour
         if(productsList.CheckForFailures())
         {
             //Code that resolves interaction if failure is detected after accepting purchase
-            Debug.Log("AddStrike()");
+            DayManager.Instance.AddStrike();
             customer.SetShowingFailureIndicator(false);
             customer.sm.ChangeState(customer.goingHomeState);
-            player.Input.PlayerActionMap.MovementAction.Enable();
+            player.EnableMovement();
 
-            Destroy(transform.parent.gameObject);
+            checkout.DestroyInteraction();
             yield break;
         }
         //If failure wasnt detected after accepting purchase resolve with following code 
         customer.SetShowingFailureIndicator(false);
         customer.sm.ChangeState(customer.goingHomeState);
-        player.Input.PlayerActionMap.MovementAction.Enable();
+        player.EnableMovement();
 
-        Destroy(transform.parent.gameObject);
+        checkout.DestroyInteraction();
     }
 }

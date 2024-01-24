@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerScript: {fileID: 0}
   interaction: {fileID: 3911274170187485791, guid: bcb4fc481b5760d4299f4c1f7d5a6c5c, type: 3}
-  navMeshDestination: {fileID: 0}
+  navMeshDestination: {fileID: 1717862392954162690}
 --- !u!1 &5589339679643986741
 GameObject:
   m_ObjectHideFlags: 0

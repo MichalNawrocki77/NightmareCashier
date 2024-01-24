@@ -77,7 +77,6 @@ public class Customer : MonoBehaviour
             products.Add(DayManager.Instance.productList[
                 Random.Range(0,DayManager.Instance.products.Count)]
                 );
-            Debug.Log(products[i].name);
         }
     }
     public bool IsDestinationReached()

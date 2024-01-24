@@ -22,6 +22,7 @@ public class DayCycle : Singleton<DayCycle>
     public int howLongEventFail;
     [SerializeField] int howLongToAcceptEvent;
 
+    public float howLongToCleanEvent;
 
     [SerializeField]
 
@@ -35,7 +36,8 @@ public class DayCycle : Singleton<DayCycle>
 
     [SerializeField] GameObject clockTime;
 
-    [SerializeField] GameObject eventShowImg;
+    [SerializeField] GameObject eventDisclaimer;
+
 
     [SerializeField] GameObject endScreen;
 
@@ -102,16 +104,16 @@ public class DayCycle : Singleton<DayCycle>
 
         string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
      
-        //Jeœli jest to pierwszy dzieñ, ustaw jego d³ugoœæ na 300s, jesli to jakiœ inny dzieñ, ustaw jego czas na 600s
+        //Jeœli jest to pierwszy dzieñ, ustaw jego d³ugoœæ na 200s, jesli to jakiœ inny dzieñ, ustaw jego czas na 300s
          switch (int.Parse(gettedSaves[0]))
          {
              case 1:
-                 DayTimeLeft = 300;
+                 DayTimeLeft = 200;
                  break;
 
 
              default:
-                DayTimeLeft = 600;
+                DayTimeLeft = 300;
                  break;
          }
 
@@ -137,7 +139,6 @@ public class DayCycle : Singleton<DayCycle>
 
 
 
-        
 
 
 
@@ -178,7 +179,7 @@ public class DayCycle : Singleton<DayCycle>
             if (Mathf.Round(DayTimeLeft) == timestamps[i])
             {
                 StartCoroutine(TooLate());
-                eventShowImg.GetComponent<RawImage>().enabled = true;
+                ShowEventDisclaimer();
                 DayTimeLeft -= 1;
                 coworkerPad.GetComponent<BoxCollider2D>().enabled = true;
                 coworkerPad.GetComponent<SpriteRenderer>().color = Color.green;
@@ -199,7 +200,7 @@ public class DayCycle : Singleton<DayCycle>
             yield break;
         }
         DayManager.Instance.AddStrike();
-        HideEventShowImage();
+        HideEventDisclaimer();
         DayTimeLeft -= 1;
         coworkerPad.GetComponent<BoxCollider2D>().enabled = false;
         coworkerPad.GetComponent<SpriteRenderer>().color = Color.white;
@@ -213,9 +214,13 @@ public class DayCycle : Singleton<DayCycle>
         itsokEvent = false;
         StopCoroutine(TooLate());
     }
-    public void HideEventShowImage()
+    public void ShowEventDisclaimer()
     {
-        eventShowImg.GetComponentInChildren<RawImage>().enabled = false;
+        eventDisclaimer.SetActive(true);
+    }
+    public void HideEventDisclaimer()
+    {
+        eventDisclaimer.SetActive(false);
     }
     public void ChangeShifts()
     {

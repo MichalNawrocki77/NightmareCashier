@@ -21,8 +21,10 @@ public class CoworkerPadInteract : MonoBehaviour
            GetComponent<SpriteRenderer>().color = Color.white;
 
            ran = Random.Range(0, possibleEvents.Count);
+
+
            possibleEvents[ran].SetActive(true);
-           DayCycle.Instance.currEvent = possibleEvents[Random.Range(0,possibleEvents.Count)];
+           DayCycle.Instance.currEvent = possibleEvents[ran];
 
             StartCoroutine(Fail());
 
@@ -44,7 +46,7 @@ public class CoworkerPadInteract : MonoBehaviour
         }
         possibleEvents[ran].SetActive(false);
         DayManager.Instance.AddStrike();
-        DayCycle.Instance.HideEventShowImage();
+        DayCycle.Instance.HideEventDisclaimer();
         DayCycle.Instance.ResetEventsVariables();
 
     }

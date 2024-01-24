@@ -8,11 +8,8 @@ public class MenuHandler : MonoBehaviour
     AudioSource source;
     public void ExitApp()
     {
-        //Application.Quit();
         Debug.Log("quit");
-
-
-
+        Application.Quit();
     }
 
     private void Update()
