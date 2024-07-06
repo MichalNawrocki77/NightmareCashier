@@ -9,7 +9,6 @@ public class DayCycle : Singleton<DayCycle>
 {
 
     [SerializeField]  public float DayTimeLeft;
-    public bool StopCustomers;
     [SerializeField] GameObject coworkerPad;
 
 
@@ -116,8 +115,7 @@ public class DayCycle : Singleton<DayCycle>
                 DayTimeLeft = 300;
                  break;
          }
-
-        StopCustomers = false;
+        
 
         
 
@@ -161,7 +159,7 @@ public class DayCycle : Singleton<DayCycle>
        
         if(DayTimeLeft <= 0)
         {
-            StopCustomers = true;
+            DayManager.Instance.spawnCustomers = true;
 
             //string[] gettedSaves = PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";"); 
 

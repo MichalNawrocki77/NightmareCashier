@@ -14,6 +14,10 @@ public class Customer : MonoBehaviour
     Animator animator;
 
     [HideInInspector] public List<Product> products;
+
+    [Tooltip("This sprite will be used in dialgue's instead of the in game one")]
+    
+    public Sprite dialogueSprite;
     
     #region Navigation
     [HideInInspector] public NavMeshAgent agent;

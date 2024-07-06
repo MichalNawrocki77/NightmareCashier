@@ -13,11 +13,15 @@ using Random = UnityEngine.Random;
 public class Interaction : MonoBehaviour
 {
     Checkout checkout;
-    internal Customer customer;
-    internal Player player;
+    Customer customer;
+    Player player;
+
+    CanvasGroup canvasGroup;
+
     [SerializeField] RectTransform sideScaleRect;
     [SerializeField] ProductsList productsList;
-    CanvasGroup canvasGroup;
+    [SerializeField] DialogueManager dialogueManager;
+    
     
     public bool IsVisible
     {
@@ -49,10 +53,13 @@ public class Interaction : MonoBehaviour
         this.customer = customer;
         this.player = player;
         this.checkout = checkout;
+
+        dialogueManager.InjectDependencies(this, this.customer);
     }
+    #region Adding Products
     void SpawnProductInsideSideScale(GameObject itemToSpawn)
     {
-        //Spawns itemToSpan (which is a prefab, prefferably a prefab of an item xD)
+        //Spawns itemToSpawn (which is a prefab, prefferably a prefab of an item xD)
         RectTransform spawnedItem = Instantiate(itemToSpawn, sideScaleRect).
             GetComponent<RectTransform>();
 
@@ -84,14 +91,17 @@ public class Interaction : MonoBehaviour
     public void AddProductToProductsList(Product product)
     {
         //since this is supposed to always add a product I can simply pass None, for the failureType enum
+        //????????????????????? where none? XD
         productsList.AddProductFromPanel(product);
     }
+    #endregion
     public IEnumerator CustomerInteractingCoroutine()
     {
         foreach (Product product in customer.products)
         {
 
             //so far the wait in between product adding is 2s, define it in DayManager in the future
+            Debug.LogWarning("Hardcoded value (wait in between adding products), DEFINE IT SOMEWHERE!!!");
             yield return new WaitForSeconds(2);
 
             if(

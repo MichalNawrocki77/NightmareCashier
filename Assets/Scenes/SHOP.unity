@@ -30539,7 +30539,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 483942331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.270373, y: -4.9941998, z: -9.972184}
+  m_LocalPosition: {x: -9.270451, y: -4.9941998, z: -9.972184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -41748,6 +41748,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 702746043}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: spawnCustomers
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: maxCustomerWait
       value: 5
       objectReference: {fileID: 0}
@@ -41871,6 +41875,10 @@ PrefabInstance:
       propertyPath: eventShowImg
       value: 
       objectReference: {fileID: 1490914385}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: StopCustomers
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: howManyEvents
       value: 2

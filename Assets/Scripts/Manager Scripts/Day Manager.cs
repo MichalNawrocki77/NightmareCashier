@@ -40,6 +40,7 @@ public class DayManager : Singleton<DayManager>
     public List<CheckoutQueue> Queues;
 
     public bool spawnCustomers;
+
     [SerializeField] List<GameObject> customerPrefabs;
     [SerializeField] Transform customerSpawnPoint;
     public Transform customerExitPoint;
@@ -59,11 +60,7 @@ public class DayManager : Singleton<DayManager>
 
     private void FixedUpdate()
     {
-
-
         StrikeUI.GetComponent<TextMeshProUGUI>().text = $"Strike: {strikes}";
-
-
     }
 
     private void Awake()
@@ -101,7 +98,7 @@ public class DayManager : Singleton<DayManager>
     IEnumerator CustomerSpawningCoroutine()
     {
         int id = 0;
-        while (DayCycle.Instance.StopCustomers == false)
+        while (spawnCustomers)
         {
             GameObject temp = Instantiate(customerPrefabs[0], customerSpawnPoint);
             temp.transform.localPosition = Vector3.zero;
