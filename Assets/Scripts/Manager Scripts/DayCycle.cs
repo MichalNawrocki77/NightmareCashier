@@ -97,8 +97,8 @@ public class DayCycle : Singleton<DayCycle>
     private void Awake()
     {
         source.loop = true;
-
-        source.Play();
+        source.volume = PlayerPrefs.GetFloat("MusicVolume");
+        //source.Play();
 
 
         string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
@@ -132,8 +132,7 @@ public class DayCycle : Singleton<DayCycle>
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        source.volume = PlayerPrefs.GetFloat("MusicVolume");
+        
 
 
 

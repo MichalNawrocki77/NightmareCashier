@@ -284,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   products: []
   dialogueSprite: {fileID: 21300000, guid: b7394b8eb58566443b6f13b8619fc94e, type: 3}
+  inkStory: {fileID: 4900000, guid: db38fd97ef6abf9418123e92e970454d, type: 3}
   agent: {fileID: 0}
   minSecondsToGetNextProduct: 0
   maxSecondsToGetNextProduct: 0

@@ -18,6 +18,7 @@ public class Customer : MonoBehaviour
     [Tooltip("This sprite will be used in dialgue's instead of the in game one")]
     
     public Sprite dialogueSprite;
+    public TextAsset inkStory;
     
     #region Navigation
     [HideInInspector] public NavMeshAgent agent;

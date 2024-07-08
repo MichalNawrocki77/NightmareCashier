@@ -1,15 +1,15 @@
 English or Spanish?
-*English
+*[English]
     Whoever Moves first is gay
-    **\*move\*
+    **[\*move\*]
         HA! You're Gay
-    **...
+    **[...]
         ...
-*Spanish
+*[Spanish]
     el que se mueve primero es gay
-    **\*mover\*
+    **[\*mover\*]
         JA! eres gay
-    **...
+    **[...]
         ...
-*...
-    ***...
+*[...]
+    ...
