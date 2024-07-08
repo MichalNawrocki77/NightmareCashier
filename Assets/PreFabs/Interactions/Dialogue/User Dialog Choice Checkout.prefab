@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 314225846779958595}
   - component: {fileID: 7210325829273265844}
   m_Layer: 5
-  m_Name: User Dialog Choice
+  m_Name: User Dialog Choice Checkout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class DayCycle : Singleton<DayCycle>
 {
 
-    [SerializeField]  public float DayTimeLeft;
+    [SerializeField] public float DayTimeLeft;
     [SerializeField] GameObject coworkerPad;
 
 
@@ -24,7 +24,6 @@ public class DayCycle : Singleton<DayCycle>
     public float howLongToCleanEvent;
 
     [SerializeField]
-
     AudioSource source;
 
     public List<int> timestamps = new List<int>();
@@ -98,7 +97,7 @@ public class DayCycle : Singleton<DayCycle>
     {
         source.loop = true;
         source.volume = PlayerPrefs.GetFloat("MusicVolume");
-        //source.Play();
+        source.Play();
 
 
         string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");

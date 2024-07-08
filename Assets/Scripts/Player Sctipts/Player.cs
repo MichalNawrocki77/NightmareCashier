@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
             InteractionPressed.Invoke();
             return;
         }
-        Debug.Log("InteractionPressed jest NULL!!!");
+        Debug.Log("InteractionPressed is NULL!!!");
 
     }
     public void DisableMovement()

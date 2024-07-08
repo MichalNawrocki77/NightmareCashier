@@ -54,7 +54,7 @@ public class Interaction : MonoBehaviour
         this.player = player;
         this.checkout = checkout;
 
-        dialogueManager.InjectDependencies(this, this.customer);
+        dialogueManager.InjectDependencies(this.customer);
     }
     #region Adding Products
     void SpawnProductInsideSideScale(GameObject itemToSpawn)

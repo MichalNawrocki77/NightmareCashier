@@ -9,17 +9,32 @@ using UnityEngine.AI;
 
 using Random = UnityEngine.Random;
 
-public class Customer : MonoBehaviour
+public class Customer : MonoBehaviour, IDialogueable
 {
     Animator animator;
 
     [HideInInspector] public List<Product> products;
 
     [Tooltip("This sprite will be used in dialgue's instead of the in game one")]
+
+    #region IDialogueable members
+
+    [SerializeField] Sprite dialogueSprite; 
+    Sprite IDialogueable.DialogueSprite
+    {
+        get => dialogueSprite;
+        set => dialogueSprite = value;
+    }
+
+    [SerializeField] TextAsset inkStory;
+    TextAsset IDialogueable.InkStory
+    {
+        get => inkStory;
+        set => inkStory = value;
     
-    public Sprite dialogueSprite;
-    public TextAsset inkStory;
-    
+    }
+    #endregion
+
     #region Navigation
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public int minSecondsToGetNextProduct;
@@ -41,6 +56,8 @@ public class Customer : MonoBehaviour
     public AtQueueState atQueueState;
     public GoingToCheckoutState goingToCheckoutState;
     public GoingHomeState goingHomeState;
+
+    
 
     #endregion
 
