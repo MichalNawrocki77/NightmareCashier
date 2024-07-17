@@ -4,19 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEditor;
+using UnityEditor.TerrainTools;
 
 public class DayCycle : Singleton<DayCycle>
 {
-
-    [SerializeField] public float DayTimeLeft;
+    
     [SerializeField] GameObject coworkerPad;
 
-
-    [SerializeField] int howMuchAfterStartEvents;
-    [SerializeField] int howMuchBeforeEndEvents;
-    [SerializeField] int maxBetweenEvents;
-    [SerializeField] int minBetweenEvents;
-    [SerializeField] int howManyEvents;
+    
 
     public int howLongEventFail;
     [SerializeField] int howLongToAcceptEvent;
@@ -24,9 +20,9 @@ public class DayCycle : Singleton<DayCycle>
     public float howLongToCleanEvent;
 
     [SerializeField]
-    AudioSource source;
+    AudioSource audioSource;
 
-    public List<int> timestamps = new List<int>();
+    
 
     public bool eventStarted;
     
@@ -39,150 +35,78 @@ public class DayCycle : Singleton<DayCycle>
 
     [SerializeField] GameObject endScreen;
 
-
-
-    void GenerateEventTimestamps()
+    private void Awake()
     {
-        bool canExit = false;
+        ReadValuesFromSaveFile();
 
-        while (!canExit)
-        {
-            timestamps.Clear();
+        //GenerateEventTimestamps();
 
-            for (int i = 0; i < howManyEvents; i++)
-            {
-                timestamps.Add(Random.Range(howMuchAfterStartEvents, (int)DayTimeLeft - howMuchBeforeEndEvents));
-            }
-            timestamps.Sort();
-
-            for(int i = 1;i< timestamps.Count; i++)
-            {
-                if ( (timestamps[i] - timestamps[i-1] > maxBetweenEvents)
-                    ||
-                    (timestamps[i] - timestamps[i - 1] < minBetweenEvents))
-                {
-                    break;
-                }
-                canExit = true;
-            }
-        }
-
-        
     }
+
+    
+    /// <summary>
+    /// This is just a placeholder, I put code that does not use a save file, but in the future I will probably use one.
+    /// </summary>
+    void ReadValuesFromSaveFile()
+    {
+        audioSource.volume = PlayerPrefs.GetFloat("MusicVolume");
+
+        string[] gettedSaves = PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
+
+        //Jeœli jest to pierwszy dzieñ, ustaw jego d³ugoœæ na 200s, jesli to jakiœ inny dzieñ, ustaw jego czas na 300s
+        switch (int.Parse(gettedSaves[0]))
+        {
+            case 1:
+                //DayTimeLeft = 200;
+                break;
+
+
+            default:
+                //DayTimeLeft = 300;
+                break;
+        }
+    }
+    
+
+    private void GenerateMinMaxTimeBetweenEvents()
+    {
+        //int actualFullTime = FullDayTime - minTimeBeforeFirstEvent - minTimeAfterLastEvent;
+        //maxTimeBetweenEvents = actualFullTime / howManyEvents;
+        ////subtract rougly 25% from maxTime (I say roughly because dividing 2 ints will always give you an int, thus this operation has some error to it)
+        ////The error is actually what I wasnt, I don't want floats in here
+        //minTimeBetweenEvents = maxTimeBetweenEvents - (maxTimeBetweenEvents / 4);
+        //Debug.Log("minTimeBetweenEvents: "+minTimeBetweenEvents);
+        //Debug.Log("maxTimeBetweenEvents: " + maxTimeBetweenEvents);
+    }
+
     private void EventNumberGenerator()
     {  
-        for (int i = 0; i < howManyEvents; i++)
-        {
-            timestamps.Add((int)Random.Range(DayTimeLeft - howMuchAfterStartEvents, howMuchBeforeEndEvents));
-        }
+        //for (int i = 0; i < howManyEvents; i++)
+        //{
+        //    timestamps.Add((int)Random.Range(DayTimeLeft - minTimeBeforeFirstEvent, minTimeAfterLastEvent));
+        //}
 
-        bool wrong = false;
-        for(int j = 1; j < timestamps.Count; j++)
-        {
-            if(timestamps[j] - timestamps[j-1] < minBetweenEvents || timestamps[j] - timestamps[j - 1] > maxBetweenEvents)
-            {
-                wrong = true;
-            }
-        }
-        if (wrong)
-        {
-            timestamps.Clear();
-            EventNumberGenerator();
-        }
+        //bool wrong = false;
+        //for(int j = 1; j < timestamps.Count; j++)
+        //{
+        //    if(timestamps[j] - timestamps[j-1] < minTimeBetweenEvents || timestamps[j] - timestamps[j - 1] > maxTimeBetweenEvents)
+        //    {
+        //        wrong = true;
+        //    }
+        //}
+        //if (wrong)
+        //{
+        //    timestamps.Clear();
+        //    EventNumberGenerator();
+        //}
     }
 
 
  
-    private void Awake()
-    {
-        source.loop = true;
-        source.volume = PlayerPrefs.GetFloat("MusicVolume");
-        source.Play();
-
-
-        string[] gettedSaves =  PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";");
-     
-        //Jeœli jest to pierwszy dzieñ, ustaw jego d³ugoœæ na 200s, jesli to jakiœ inny dzieñ, ustaw jego czas na 300s
-         switch (int.Parse(gettedSaves[0]))
-         {
-             case 1:
-                 DayTimeLeft = 200;
-                 break;
-
-
-             default:
-                DayTimeLeft = 300;
-                 break;
-         }
-        
-
-        
-
-        if (howMuchAfterStartEvents + howMuchBeforeEndEvents + maxBetweenEvents * howManyEvents > DayTimeLeft)
-        {
-            Debug.LogError("NIE DA SIE WYGENEROWAC TYLU PROBLEMOW W TAK KROTKIM CZASIE");
-        }
-        else
-        {
-            GenerateEventTimestamps();
-        }
-    }
+    
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-
-
-
-
-
-
-        if (currEvent == null)
-        { 
-            eventStarted = false;
-        }
-        else
-        {
-            eventStarted = true;
-        }
-
-        if (DayTimeLeft >= 0 && eventStarted == false)
-        {
-
-            DayTimeLeft -= Time.fixedDeltaTime;
-
-            clockTime.GetComponent<TMPro.TextMeshProUGUI>().text = $"SHIFT TIME: {Mathf.Floor(DayTimeLeft)} min";
-        }
-       
-        if(DayTimeLeft <= 0)
-        {
-            DayManager.Instance.spawnCustomers = true;
-
-            //string[] gettedSaves = PlayerPrefs.GetString(PlayerPrefs.GetString("currentSave")).Split(";"); 
-
-          //  PlayerPrefs.SetString(PlayerPrefs.GetString("currentSave"), (int.Parse(gettedSaves[0]) +1).ToString() + ";0");
-
-            Time.timeScale = 0;
-            endScreen.transform.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = $"Gratulacje przetrwa³eœ ca³¹ noc, iloœæ twoich b³êdów to: { DayManager.Instance.strikes}";
-            endScreen.SetActive(true);
-        }
-
-
-
-        for(int i = 0; i < timestamps.Count; i++)
-        {
-            if (Mathf.Round(DayTimeLeft) == timestamps[i])
-            {
-                StartCoroutine(TooLate());
-                ShowEventDisclaimer();
-                DayTimeLeft -= 1;
-                coworkerPad.GetComponent<BoxCollider2D>().enabled = true;
-                coworkerPad.GetComponent<SpriteRenderer>().color = Color.green;
-                break;
-            }
-        }
-    }
+    
 
     public  bool itsok = false;
     public bool itsokEvent = false;
@@ -195,9 +119,10 @@ public class DayCycle : Singleton<DayCycle>
         {
             yield break;
         }
+
         DayManager.Instance.AddStrike();
         HideEventDisclaimer();
-        DayTimeLeft -= 1;
+        //DayTimeLeft -= 1;
         coworkerPad.GetComponent<BoxCollider2D>().enabled = false;
         coworkerPad.GetComponent<SpriteRenderer>().color = Color.white;
 
@@ -229,6 +154,5 @@ public class DayCycle : Singleton<DayCycle>
         Time.timeScale = 1;
         SceneManager.LoadScene("MENU");
     }
-
-
 }
+

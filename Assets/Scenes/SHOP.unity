@@ -40609,6 +40609,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4168109790319430887, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
   m_PrefabInstance: {fileID: 805958425}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1322777947 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 864939544391049514, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+  m_PrefabInstance: {fileID: 2126767692}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1347363486
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41941,6 +41946,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: itsok
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: clockTime
       value: 
       objectReference: {fileID: 499139176}
@@ -41950,8 +41959,16 @@ PrefabInstance:
       objectReference: {fileID: 160256183}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: DayTimeLeft
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: FullDayTime
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1322777947}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: coworkerPad
       value: 
@@ -41966,7 +41983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: howManyEvents
-      value: 2
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: eventDisclaimer
@@ -41993,12 +42010,20 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: minTimeAfterLastEvent
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: howMuchBeforeEndEvents
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: howMuchAfterStartEvents
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: minTimeBeforeFirstEvent
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6010629286948324847, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: m_Name

@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class EventClean : MonoBehaviour
+public class ShopEvent : MonoBehaviour
 {
     [SerializeField] Player player;
     SpriteRenderer spriteRenderer;
