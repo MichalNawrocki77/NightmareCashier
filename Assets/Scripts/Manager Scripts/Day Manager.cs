@@ -94,6 +94,7 @@ public class DayManager : Singleton<DayManager>
         UpdateStrikeUI();
 
         DayTimeLeft = FullDayTime;
+        UpdateClockUI();
 
         Debug.Log("Why the fuck do you use two lists??? every object in productList has a reference to it's GameObject");
         productList = new List<Product>();
@@ -107,6 +108,7 @@ public class DayManager : Singleton<DayManager>
         FixChancesOfInteractionOccuring();
 
         StartCoroutine(CustomerSpawningCoroutine());
+        StartCoroutine(UpdateDayTime());
     }
 
     private void FixedUpdate()
@@ -114,26 +116,34 @@ public class DayManager : Singleton<DayManager>
         UpdateDayTime();
     }
 
-    private void UpdateDayTime()
+    private IEnumerator UpdateDayTime()
     {
-        if (isDayTimeRunning)
+        while (true)
         {
-            return;
-        }
+            yield return new WaitForSecondsRealtime(1);
 
-        DayTimeLeft -= Time.fixedDeltaTime;
-        UpdateClockUI();
-        OnSecondPassed?.Invoke();
+            if (!isDayTimeRunning)
+            {
+                continue;
+            }
 
-        if (DayTimeLeft <= 0)
-        {
-            EndDay();
+            DayTimeLeft--;
+            UpdateClockUI();
+            OnSecondPassed?.Invoke();
+
+            if (DayTimeLeft <= 0)
+            {
+                EndDay();
+            }
         }
+        
+
+        
     }
 
     private void UpdateClockUI()
     {
-        clockText.text = $"SHIFT TIME: {Mathf.Floor(DayTimeLeft)} min";
+        clockText.text = $"SHIFT TIME: {DayTimeLeft} min";
     }
 
     private void EndDay()
@@ -150,7 +160,7 @@ public class DayManager : Singleton<DayManager>
     public void AddStrike()
     {
         strikes += 1;
-
+        UpdateStrikeUI();
     }
 
     void UpdateStrikeUI()

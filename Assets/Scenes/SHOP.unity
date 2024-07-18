@@ -181,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 1138921201}
     - target: {fileID: 2713534565966013551, guid: becac15677001e64fb954851d4dce062, type: 3}
       propertyPath: m_Name
-      value: Flop (1)
+      value: ShopEvent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -30691,6 +30691,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7385542512797242986, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
   m_PrefabInstance: {fileID: 805958425}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &499139177 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5312327291540634839, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+  m_PrefabInstance: {fileID: 805958425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499139176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504697967
 GameObject:
   m_ObjectHideFlags: 0
@@ -39414,6 +39425,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7938431895224715414, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
   m_PrefabInstance: {fileID: 805958425}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &702746044 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 443566553387615116, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+  m_PrefabInstance: {fileID: 805958425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702746043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &718013084 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2713534565966013551, guid: becac15677001e64fb954851d4dce062, type: 3}
@@ -39453,9 +39475,29 @@ PrefabInstance:
       propertyPath: m_VerticalAlignment
       value: 512
       objectReference: {fileID: 0}
+    - target: {fileID: 1083493482243008923, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+      propertyPath: m_Name
+      value: clockPanel
+      objectReference: {fileID: 0}
     - target: {fileID: 2053816664163975914, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
       propertyPath: m_Name
       value: Exit_Btn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2261469108824256809, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517852793415386688, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+      propertyPath: m_Name
+      value: EventDisclaimerPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2517852793415386688, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3525373930250386304, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+      propertyPath: m_Name
+      value: EndScreenPanel
       objectReference: {fileID: 0}
     - target: {fileID: 3525373930250386304, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
       propertyPath: m_IsActive
@@ -39463,7 +39505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4168109790319430887, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4662383947188051889, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
       propertyPath: m_SizeDelta.x
@@ -39560,6 +39602,10 @@ PrefabInstance:
     - target: {fileID: 4928603511053520832, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6703356549891938798, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
+      propertyPath: m_Name
+      value: strikesPanel
       objectReference: {fileID: 0}
     - target: {fileID: 7282237647561676357, guid: c99e4b2543993fd4e8b5031c3706d562, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -40733,7 +40779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1354285680}
   m_Layer: 0
-  m_Name: Problems
+  m_Name: ShopEvents
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41350,7 +41396,7 @@ PrefabInstance:
       objectReference: {fileID: 1138921201}
     - target: {fileID: 2713534565966013551, guid: becac15677001e64fb954851d4dce062, type: 3}
       propertyPath: m_Name
-      value: Flop
+      value: ShopEvent
       objectReference: {fileID: 0}
     - target: {fileID: 2713534565966013551, guid: becac15677001e64fb954851d4dce062, type: 3}
       propertyPath: m_IsActive
@@ -41838,12 +41884,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 702746043}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: clockText
+      value: 
+      objectReference: {fileID: 499139177}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: StrikeText
+      value: 
+      objectReference: {fileID: 702746044}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: EndGamePanel
+      value: 
+      objectReference: {fileID: 160256183}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: spawnCustomers
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: maxCustomerWait
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: isDayTimeRunning
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: selfServiceQueue
@@ -41872,6 +41934,10 @@ PrefabInstance:
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: minCustomerSpawnInterval
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: <FullDayTime>k__BackingField
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 3448046811706949793, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: productShelves.Array.data[0]
@@ -41944,6 +42010,26 @@ PrefabInstance:
     - target: {fileID: 3487525362341726909, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681049431944629595, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: shopEvents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681049431944629595, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: ShopEventDisclaimerPanel
+      value: 
+      objectReference: {fileID: 1490914385}
+    - target: {fileID: 4681049431944629595, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: shopEvents.Array.data[0]
+      value: 
+      objectReference: {fileID: 2120642314}
+    - target: {fileID: 4681049431944629595, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: shopEvents.Array.data[1]
+      value: 
+      objectReference: {fileID: 718013084}
+    - target: {fileID: 4681049431944629595, guid: 45e1b9815d168f546934386d66244f13, type: 3}
+      propertyPath: timeToTakeCareOfShopEvent
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5071629993771536247, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: itsok
@@ -42027,7 +42113,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6010629286948324847, guid: 45e1b9815d168f546934386d66244f13, type: 3}
       propertyPath: m_Name
-      value: Day Manager
+      value: Managers
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

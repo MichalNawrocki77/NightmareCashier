@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3487525362341726909}
   - component: {fileID: 3448046811706949793}
+  - component: {fileID: 4681049431944629595}
   - component: {fileID: 5071629993771536247}
   - component: {fileID: 864939544391049514}
   m_Layer: 0
-  m_Name: Day Manager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3448046811706949793
 MonoBehaviour:
@@ -47,27 +48,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chancesOfInteractionFailuresOccuring: 323205
-  productShelves:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   products:
   - {fileID: 8948150369648650343, guid: 181e1f69ab589aa41b139346fb9c5af2, type: 3}
   - {fileID: 8948150369648650343, guid: f52c9392b6762cc47bed1bb4bb278014, type: 3}
   - {fileID: 8948150369648650343, guid: 9ea24c3047a30a8439d22605b07e3b27, type: 3}
   productList: []
-  minCustomerWait: 1
-  maxCustomerWait: 2
-  selfServiceQueue: {fileID: 0}
+  productShelves:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  minCustomerShelfWait: 0
+  maxCustomerShelfWait: 0
   Queues: []
+  selfServiceQueue: {fileID: 0}
+  customerExitPoint: {fileID: 0}
   spawnCustomers: 0
+  minCustomerSpawnInterval: 0
+  maxCustomerSpawnInterval: 0
   customerPrefabs:
   - {fileID: 4286515926957810409, guid: dfe1e9a7dbd22e947a35f20bfd64a9a2, type: 3}
   customerSpawnPoint: {fileID: 0}
-  customerExitPoint: {fileID: 0}
-  StrikeUI: {fileID: 0}
-  points: 0
+  isDayTimeRunning: 0
+  clockText: {fileID: 0}
+  <FullDayTime>k__BackingField: 0
+  <DayTimeLeft>k__BackingField: 0
+  StrikeText: {fileID: 0}
   strikes: 0
+  EndGamePanel: {fileID: 0}
+--- !u!114 &4681049431944629595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010629286948324847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82b0ecf9508ce3428e67b18622fe520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useManualTimeBetweenShopEvents: 0
+  maxTimeBetweenShopEvents: 0
+  minTimeBetweenShopEvents: 0
+  TimeBeforeFirstShopEvent: 5
+  TimeAfterLastShopEvent: 20
+  timeToTakeCareOfShopEvent: 15
+  howManyShopEvents: 10
+  ShopEventDisclaimerPanel: {fileID: 0}
+  timestamps: 
+  shopEvents: []
 --- !u!114 &5071629993771536247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,24 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c867fd88a320f40ba2f792cfeb0a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DayTimeLeft: 30
-  StopCustomers: 0
   coworkerPad: {fileID: 0}
-  howMuchAfterStartEvents: 3
-  howMuchBeforeEndEvents: 5
-  maxBetweenEvents: 2
-  minBetweenEvents: 1
-  howManyEvents: 2
   howLongEventFail: 15
-  source: {fileID: 864939544391049514}
-  timestamps: 
+  howLongToAcceptEvent: 0
+  howLongToCleanEvent: 0
+  audioSource: {fileID: 0}
   eventStarted: 0
   currEvent: {fileID: 0}
   clockTime: {fileID: 0}
-  eventShowImg: {fileID: 0}
+  eventDisclaimer: {fileID: 0}
   endScreen: {fileID: 0}
-  itsok: 0
-  itsokEvent: 0
 --- !u!82 &864939544391049514
 AudioSource:
   m_ObjectHideFlags: 0

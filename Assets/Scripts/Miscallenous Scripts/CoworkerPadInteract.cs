@@ -15,7 +15,7 @@ public class CoworkerPadInteract : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
 
-            DayCycle.Instance.itsok = true;
+            //DayCycle.Instance.itsok = true;
 
            GetComponent<BoxCollider2D>().enabled = false;
            GetComponent<SpriteRenderer>().color = Color.white;
@@ -39,15 +39,15 @@ public class CoworkerPadInteract : MonoBehaviour
     {
         yield return new  WaitForSecondsRealtime(DayCycle.Instance.howLongEventFail);
 
-        if (DayCycle.Instance.itsokEvent)
-        {
-            DayCycle.Instance.ResetEventsVariables();
-            yield break;
-        }
+        //if (DayCycle.Instance.itsokEvent)
+        //{
+        //    DayCycle.Instance.ResetEventsVariables();
+        //    yield break;
+        //}
         possibleEvents[ran].SetActive(false);
         DayManager.Instance.AddStrike();
-        DayCycle.Instance.HideEventDisclaimer();
-        DayCycle.Instance.ResetEventsVariables();
+        //DayCycle.Instance.HideEventDisclaimer();
+        //DayCycle.Instance.ResetEventsVariables();
 
     }
 }

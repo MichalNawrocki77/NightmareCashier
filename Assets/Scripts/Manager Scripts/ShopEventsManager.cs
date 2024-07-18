@@ -4,7 +4,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-public class ShopEventsManager : MonoBehaviour
+public class ShopEventsManager : Singleton<ShopEventsManager>
 {
 
 
@@ -21,28 +21,24 @@ public class ShopEventsManager : MonoBehaviour
 
     [SerializeField] GameObject ShopEventDisclaimerPanel;
 
+    [Tooltip("Timestamps are serialized, only for the purpose of looking up generated timestamps at editor runtime")]
     [SerializeField]
     int[] timestamps;
     int currentEventIndex;
+
+    [SerializeField] GameObject[] shopEvents;
 
     Coroutine currentCoroutine;
 
     private void Awake()
     {
         GenerateEventTimestamps();
-        currentEventIndex = 0;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         DayManager.Instance.OnSecondPassed += CheckForShopEvents;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
 
@@ -59,14 +55,17 @@ public class ShopEventsManager : MonoBehaviour
             return;
         }
 
+        timestamps = new int[howManyShopEvents];
+        currentEventIndex = howManyShopEvents - 1;
+
         timestamps[0] = (Random.Range(TimeBeforeFirstShopEvent,
                 TimeBeforeFirstShopEvent + maxTimeBetweenShopEvents));
 
         for (int i = 1; i < howManyShopEvents; i++)
         {
             timestamps[i] = (Random.Range(
-                timestamps[i - 1] + minTimeBetweenShopEvents,
-                timestamps[i - 1] + maxTimeBetweenShopEvents)
+                TimeBeforeFirstShopEvent + i * maxTimeBetweenShopEvents + minTimeBetweenShopEvents,
+                TimeBeforeFirstShopEvent + i * maxTimeBetweenShopEvents + maxTimeBetweenShopEvents)
                 );
         }
 
@@ -78,13 +77,13 @@ public class ShopEventsManager : MonoBehaviour
 
         if (actualFullTime / howManyShopEvents < timeToTakeCareOfShopEvent)
         {
-            Debug.Log("Too many events, time between them is lower than time to take care of it. No events were generated");
+            Debug.Log("Too many events, time between them is lower than time to take care of it.");
             return;
         }
 
         maxTimeBetweenShopEvents = actualFullTime / howManyShopEvents;
         //subtract rougly 25% from maxTime (I say roughly because dividing 2 ints will always give you an int, thus this operation has some error to it)
-        //The error is actually what I wasnt, I don't want floats in here
+        //The error is actually what I want, I don't want floats in here
         minTimeBetweenShopEvents = maxTimeBetweenShopEvents - (maxTimeBetweenShopEvents / 4);
         Debug.Log("minTimeBetweenEvents: " + minTimeBetweenShopEvents);
         Debug.Log("maxTimeBetweenEvents: " + maxTimeBetweenShopEvents);
@@ -95,38 +94,62 @@ public class ShopEventsManager : MonoBehaviour
         if(DayManager.Instance.DayTimeLeft == timestamps[currentEventIndex])
         {
             StartShopEvent();
-            currentEventIndex++;
         }
+    }
+    private void ChooseShopEventToTrigger()
+    {
+        shopEvents[Random.Range(0, shopEvents.Length)].SetActive(true);
     }
     void StartShopEvent()
     {
+        DayManager.Instance.isDayTimeRunning = false;
+
         ShowShopEventUI();
+
+        ChooseShopEventToTrigger();
 
         currentCoroutine = StartCoroutine(ShopEventCountdown());
 
+    }
+    private void ShopEventFailed()
+    {
+        DayManager.Instance.AddStrike();
+
+        //If Player didn't clear the ShopEvent, reset the countdown (it can't just dissapear out of nowhere)
+        StopCoroutine(currentCoroutine);
+        currentCoroutine = StartCoroutine(ShopEventCountdown());
+    }
+    public void EndShopEvent()
+    {
+        StopCoroutine(currentCoroutine);
+        DayManager.Instance.isDayTimeRunning = true;
+        currentEventIndex--;
+        HideShipEventUI();
     }
     
     IEnumerator ShopEventCountdown()
     {
 
-        int timeLeft = timeToTakeCareOfShopEvent;
+        int timeLeft = timeToTakeCareOfShopEvent + 1;
         while(timeLeft > 0)
         {
-            yield return new WaitForSecondsRealtime(1);
             timeLeft--;
+            yield return new WaitForSecondsRealtime(1);
         }
 
         ShopEventFailed();
     }
 
-    private void ShopEventFailed()
-    {
-        Debug.Log("Shop Event Failed");
-    }
+    
 
     private void ShowShopEventUI()
     {
         ShopEventDisclaimerPanel.SetActive(true);
+    }
+
+    void HideShipEventUI()
+    {
+        ShopEventDisclaimerPanel.SetActive(false);
     }
 
     private void OnDestroy()

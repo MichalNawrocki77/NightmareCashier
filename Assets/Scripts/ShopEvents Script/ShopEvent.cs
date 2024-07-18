@@ -10,7 +10,6 @@ public class ShopEvent : MonoBehaviour
 {
     [SerializeField] Player player;
     SpriteRenderer spriteRenderer;
-    bool inCol = false;
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -19,59 +18,45 @@ public class ShopEvent : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (DayCycle.Instance.currEvent != null)
-            {
-                inCol = true;
-            }
+            player.AssignInteractionAction(InteractWithEvent);
         }
     }
 
-    
-    private void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (inCol)
+        if (collision.gameObject.tag == "Player")
         {
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                StartCoroutine(Wait());
-            }
+            player.DisableIntarctionAction();
         }
     }
 
+    void InteractWithEvent()
+    {
+        StartCoroutine(InteractionWithEventCoroutine());
+    }
 
-    IEnumerator Wait()
+    IEnumerator InteractionWithEventCoroutine()
     {
         player.DisableMovement();
 
+        //Code that fades away the interaction object
         Color fadeAwayColor = spriteRenderer.color;
         float timeElapsed = 0f;
         while (timeElapsed < DayCycle.Instance.howLongToCleanEvent)
         {
             fadeAwayColor.a = Mathf.Lerp(1, 0, timeElapsed / DayCycle.Instance.howLongToCleanEvent);
             spriteRenderer.color = fadeAwayColor;
+            //I use deltaTime and not fixedDeltaTime since I change the way it looks, so it makes sense to change by the delta of rendered frame
             timeElapsed += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 
+        player.DisableIntarctionAction();
         player.EnableMovement();
-        DayCycle.Instance.itsokEvent = true;
-        DayCycle.Instance.HideEventDisclaimer();
-        inCol = false;
-        DayCycle.Instance.currEvent = null;
+
+        ShopEventsManager.Instance.EndShopEvent();
+
         spriteRenderer.color = new Color(1, 1, 1, 1);
         gameObject.SetActive(false);
-    }
-
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            if (DayCycle.Instance.currEvent != null)
-            {
-                inCol = false;
-            }
-        }
     }
 }

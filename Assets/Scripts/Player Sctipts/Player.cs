@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
 {
     public PlayerControls Input { get; private set; }
 
+    public delegate void InteractionButtonCallback();
+    InteractionButtonCallback onInteractionButtonPressed;
+
     #region movement
 
     Vector2 movementVector;
@@ -19,7 +22,6 @@ public class Player : MonoBehaviour
 
     #region Checkout Interaction
 
-    public Action InteractionPressed;
     public Checkout CurrentCheckout { private get; set; }
 
     #endregion
@@ -38,10 +40,10 @@ public class Player : MonoBehaviour
 
     private void InteractionAction_performed(CallbackContext obj)
     {
-        //I know I can do the same by calling InteractionPressed?.Invoke() but I really want to have an error in the console when it reads a null, will help with future debugging
-        if (InteractionPressed != null)
+        //I know I can do the same by calling InteractionPressed?.Invoke() but I really want to have an error in the console when it reads a null, it might help with future debugging
+        if (onInteractionButtonPressed != null)
         {
-            InteractionPressed.Invoke();
+            onInteractionButtonPressed();
             return;
         }
         Debug.Log("InteractionPressed is NULL!!!");
@@ -55,6 +57,17 @@ public class Player : MonoBehaviour
     public void EnableMovement()
     {
         Input.PlayerActionMap.MovementAction.Enable();
+    }
+
+    public void AssignInteractionAction(InteractionButtonCallback callback)
+    {
+        Input.PlayerActionMap.InteractionAction.Enable();
+        onInteractionButtonPressed = callback;
+    }
+    public void DisableIntarctionAction()
+    {
+        onInteractionButtonPressed = null;
+        Input.PlayerActionMap.InteractionAction.Disable();
     }
 
     // Start is called before the first frame update

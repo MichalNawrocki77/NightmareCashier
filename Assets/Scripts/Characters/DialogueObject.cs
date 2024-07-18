@@ -45,16 +45,14 @@ public class DialogueObject : MonoBehaviour, IDialogueable
             {
                 CreateDialogue();
             }
-            player.Input.PlayerActionMap.InteractionAction.Enable();
-            player.InteractionPressed += ShowHideDialogue;
+            player.AssignInteractionAction(ShowHideDialogue);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            player.InteractionPressed -= ShowHideDialogue;
-            player.Input.PlayerActionMap.InteractionAction.Disable();
+            player.DisableIntarctionAction();
         }
     }
 

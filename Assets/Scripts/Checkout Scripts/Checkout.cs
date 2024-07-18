@@ -18,9 +18,10 @@ public class Checkout : MonoBehaviour
         {
             customerCurrent = value;
             //Na wypadek gdyby gracz stal przy kasie, do ktorej customer jest przypisywany
+            //In case the player is near a checkout to which a customer is assigned
             if (isPlayerInCollider && value is not null)
             {
-                playerScript.InteractionPressed += ShowInteraction;
+                playerScript.AssignInteractionAction(ShowInteraction);
             }
             if(customerCurrent is null)
             {
@@ -56,8 +57,7 @@ public class Checkout : MonoBehaviour
         InteractionScript.IsVisible = false;
 
         playerScript.EnableMovement();
-        playerScript.InteractionPressed -= HideInteraction;
-        playerScript.InteractionPressed += ShowInteraction;
+        playerScript.AssignInteractionAction(ShowInteraction);
     }
     public void ShowInteraction()
     {
@@ -69,8 +69,7 @@ public class Checkout : MonoBehaviour
         InteractionScript.IsVisible = true;
 
         playerScript.DisableMovement();
-        playerScript.InteractionPressed -= ShowInteraction;
-        playerScript.InteractionPressed += HideInteraction;
+        playerScript.AssignInteractionAction(HideInteraction);
     }
     public void InteractionFinished()
     {
@@ -80,14 +79,13 @@ public class Checkout : MonoBehaviour
     {
         Destroy(interactionCurrent.gameObject);
         interactionCurrent = null;
-        playerScript.InteractionPressed -= ShowInteraction;
-        playerScript.InteractionPressed -= HideInteraction;
+        playerScript.DisableIntarctionAction();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            playerScript.InteractionPressed += ShowInteraction;
+            playerScript.AssignInteractionAction(ShowInteraction);
             isPlayerInCollider = true;
         }
     }
@@ -95,7 +93,7 @@ public class Checkout : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerScript.InteractionPressed -= ShowInteraction;
+            playerScript.DisableIntarctionAction();
             isPlayerInCollider = false;
         }
     }
