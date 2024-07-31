@@ -19,7 +19,6 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
 
     [SerializeField] int howManyShopEvents;
 
-    [SerializeField] GameObject ShopEventDisclaimerPanel;
 
     [Tooltip("Timestamps are serialized, only for the purpose of looking up generated timestamps at editor runtime")]
     [SerializeField]
@@ -104,7 +103,7 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
     {
         DayManager.Instance.isDayTimeRunning = false;
 
-        ShowShopEventUI();
+        UIManager.Instance.ShowShopEventUI();
 
         ChooseShopEventToTrigger();
 
@@ -124,7 +123,7 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
         StopCoroutine(currentCoroutine);
         DayManager.Instance.isDayTimeRunning = true;
         currentEventIndex--;
-        HideShipEventUI();
+        UIManager.Instance.HideShipEventUI();
     }
     
     IEnumerator ShopEventCountdown()
@@ -142,15 +141,7 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
 
     
 
-    private void ShowShopEventUI()
-    {
-        ShopEventDisclaimerPanel.SetActive(true);
-    }
-
-    void HideShipEventUI()
-    {
-        ShopEventDisclaimerPanel.SetActive(false);
-    }
+    
 
     private void OnDestroy()
     {

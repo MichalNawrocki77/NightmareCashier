@@ -63,10 +63,10 @@ public class DayManager : Singleton<DayManager>
     //In the Future you can use a coroutine to measure time, and whenever you want to stop it you can suspend that coroutine. For now I'll just use a bool but in the future try thinking about a coroutine
     public bool isDayTimeRunning;
 
-    [SerializeField] TextMeshProUGUI clockText;
+    
 
     [field: SerializeField] public int FullDayTime { get; private set; }
-    [field: SerializeField] public float DayTimeLeft { get; private set; }
+    [field: SerializeField] public int DayTimeLeft { get; private set; }
 
     public Action OnSecondPassed; 
 
@@ -74,27 +74,19 @@ public class DayManager : Singleton<DayManager>
 
     #region Strikes
 
-    [SerializeField]
-    TextMeshProUGUI StrikeText;
-
     public int strikes = 0;
 
     #endregion
 
-    #region GameEnd
-
-    [SerializeField] GameObject EndGamePanel;
-
-    #endregion
 
 
     private void Awake()
     {
         strikes = 0;
-        UpdateStrikeUI();
+        UIManager.Instance.UpdateStrikeUI(strikes);
 
         DayTimeLeft = FullDayTime;
-        UpdateClockUI();
+        UIManager.Instance.UpdateClockUI(DayTimeLeft);
 
         Debug.Log("Why the fuck do you use two lists??? every object in productList has a reference to it's GameObject");
         productList = new List<Product>();
@@ -122,13 +114,14 @@ public class DayManager : Singleton<DayManager>
         {
             yield return new WaitForSecondsRealtime(1);
 
+            //if isDayTimeRunning == false
             if (!isDayTimeRunning)
             {
                 continue;
             }
 
             DayTimeLeft--;
-            UpdateClockUI();
+            UIManager.Instance.UpdateClockUI(DayTimeLeft);
             OnSecondPassed?.Invoke();
 
             if (DayTimeLeft <= 0)
@@ -141,17 +134,14 @@ public class DayManager : Singleton<DayManager>
         
     }
 
-    private void UpdateClockUI()
-    {
-        clockText.text = $"SHIFT TIME: {DayTimeLeft} min";
-    }
+    
 
     private void EndDay()
     {
         spawnCustomers = false;
         isDayTimeRunning = false;
 
-        Debug.Log("Add a seperate class for EndScreenUI, that has a method GameEnd(), that turns on all EndGameUI");
+        UIManager.Instance.EndDay();
         
     }
 
@@ -160,14 +150,10 @@ public class DayManager : Singleton<DayManager>
     public void AddStrike()
     {
         strikes += 1;
-        UpdateStrikeUI();
+        UIManager.Instance.UpdateStrikeUI(strikes);
     }
 
-    void UpdateStrikeUI()
-    {
-        //if by any chance you want to do anything else while updating the UI, Do it here.
-        StrikeText.text = $"Strike: {strikes}";
-    }
+    
 
     #endregion
 
