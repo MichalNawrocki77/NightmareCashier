@@ -12,8 +12,9 @@ public class CollectingProductsState : CustomerState
 {
 
     public Coroutine currentNavigationCoroutine;
+    KeyValuePair<Product, ProductShelf> currentDestination;
 
-    Queue<Transform> productShelvesQueue;
+    Queue< KeyValuePair<Product,ProductShelf> > productShelvesQueue;
     public CollectingProductsState(Customer customer, StateMachine stateMachine) : base(customer, stateMachine)
     {
     }
@@ -21,7 +22,7 @@ public class CollectingProductsState : CustomerState
     public override void Enter()
     {
         InitializeShelves();
-        SetNextDestination();
+        GetNewProductShelfAndSetDestination();
     }
     public override void Exit()
     {
@@ -33,7 +34,7 @@ public class CollectingProductsState : CustomerState
     {
         if (customer.IsDestinationReached() && currentNavigationCoroutine is null)
         {
-            currentNavigationCoroutine = customer.StartCoroutine(WaitForNextDestination());
+            currentNavigationCoroutine = customer.StartCoroutine(CustomerReachedShelfCoroutine());
         }
     }
     public override void PhysicsUpdate()
@@ -43,33 +44,47 @@ public class CollectingProductsState : CustomerState
 
     void InitializeShelves()
     {
-        productShelvesQueue = new Queue<Transform>();
-        foreach (Product item in customer.products)
+        productShelvesQueue = new Queue<KeyValuePair<Product,ProductShelf>>();
+        foreach (Product item in customer.products.Keys)
         {
-            if (productShelvesQueue.Contains(DayManager.Instance.productShelves[(int)item.type]))
-            {
-                continue;
-            }
-            productShelvesQueue.Enqueue(DayManager.Instance.productShelves[(int)item.type]);
+            //if (productShelvesQueue.Contains(
+            //    DayManager.Instance.productShelves[(int)item.type]))
+            //{
+            //    continue;
+            //}
+            productShelvesQueue.Enqueue(new KeyValuePair<Product, ProductShelf>(
+                item, DayManager.Instance.productShelves[(int)item.type])
+                );
+                
         }
     }
     void SetNextDestination()
     {
+        customer.agent.SetDestination(currentDestination.Value.transform.position);
+    }
+    void GetNewProductShelfAndSetDestination()
+    {
         try
         {
-            customer.agent.SetDestination(productShelvesQueue.Dequeue().position);
-        } catch (InvalidOperationException)
+            KeyValuePair<Product, ProductShelf> temp = productShelvesQueue.Dequeue();
+            currentDestination = temp;
+            SetNextDestination();
+        }
+        catch (InvalidOperationException)
         {
             customer.sm.ChangeState(customer.goingToQueueState);
         }
         
     }
-
-    IEnumerator WaitForNextDestination()
+    IEnumerator CustomerReachedShelfCoroutine()
     {
         yield return new WaitForSeconds(Random.Range(
             DayManager.Instance.minCustomerShelfWait, DayManager.Instance.maxCustomerShelfWait));
-        SetNextDestination();
+
+        currentDestination.Value.GetProductFromShelf(currentDestination.Key.type);
+
+        GetNewProductShelfAndSetDestination();
+
         currentNavigationCoroutine = null;
     }
 }

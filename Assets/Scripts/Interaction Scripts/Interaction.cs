@@ -97,35 +97,37 @@ public class Interaction : MonoBehaviour
     #endregion
     public IEnumerator CustomerInteractingCoroutine()
     {
-        foreach (Product product in customer.products)
+        foreach (Product product in customer.products.Keys)
         {
-
-            //so far the wait in between product adding is 2s, define it in DayManager in the future
-            Debug.LogWarning("Hardcoded value (wait in between adding products), DEFINE IT SOMEWHERE!!!");
-            yield return new WaitForSeconds(2);
-
-            if(
-                Random.Range(1, 101)
-                <
-                DayManager.Instance.chancesOfInteractionFailuresOccuring[0])
+            for (int i = 0; i < customer.products[product]; i++)
             {
-                failureType = InteractionFailureType.IncorrectQuantity;
-            }
-            else if (
-                Random.Range(1, 101)
-                <
-                DayManager.Instance.chancesOfInteractionFailuresOccuring[1])
-            {
-                failureType = InteractionFailureType.IncorrectWeight;
-            }
-            else
-            {
-                failureType = InteractionFailureType.None;
-                Debug.Log(failureType);
-            }
+                //so far the wait in between product adding is 2s, define it in DayManager in the future
+                Debug.LogWarning("Hardcoded value (wait in between adding products), DEFINE IT SOMEWHERE!!!");
+                yield return new WaitForSeconds(2);
 
-            AddProductToInteraction(product, failureType);
-               
+                if (
+                    Random.Range(1, 101)
+                    <
+                    DayManager.Instance.chancesOfInteractionFailuresOccuring[0])
+                {
+                    failureType = InteractionFailureType.IncorrectQuantity;
+                }
+                else if (
+                    Random.Range(1, 101)
+                    <
+                    DayManager.Instance.chancesOfInteractionFailuresOccuring[1])
+                {
+                    failureType = InteractionFailureType.IncorrectWeight;
+                }
+                else
+                {
+                    failureType = InteractionFailureType.None;
+                    Debug.Log(failureType);
+                }
+
+                AddProductToInteraction(product, failureType);
+
+            }
         }
 
         if (productsList.CheckForFailures() == false)
@@ -137,10 +139,10 @@ public class Interaction : MonoBehaviour
             yield break;
         }
 
-         customer.SetShowingFailureIndicator(true);
-         yield return new WaitUntil(() => isAcceptClicked);
+        customer.SetShowingFailureIndicator(true);
+        yield return new WaitUntil(() => isAcceptClicked);
 
-        if(productsList.CheckForFailures())
+        if (productsList.CheckForFailures())
         {
             //Code that resolves interaction if failure is detected after accepting purchase
             DayManager.Instance.AddStrike();
@@ -157,5 +159,6 @@ public class Interaction : MonoBehaviour
         player.EnableMovement();
 
         checkout.DestroyInteraction();
+        
     }
 }

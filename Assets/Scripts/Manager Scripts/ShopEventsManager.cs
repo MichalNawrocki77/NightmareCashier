@@ -33,13 +33,14 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
     {
         GenerateEventTimestamps();
     }
-
-    // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         DayManager.Instance.OnSecondPassed += CheckForShopEvents;
     }
-
+    private void OnDisable()
+    {
+        DayManager.Instance.OnSecondPassed -= CheckForShopEvents;
+    }
 
     void GenerateEventTimestamps()
     {
@@ -67,7 +68,6 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
                 TimeBeforeFirstShopEvent + i * maxTimeBetweenShopEvents + maxTimeBetweenShopEvents)
                 );
         }
-
     }
 
     private void GenerateMinMaxTimeBetweenShopEvents()
@@ -137,16 +137,6 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
         }
 
         ShopEventFailed();
-    }
-
-    
-
-    
-
-    private void OnDestroy()
-    {
-        //I never intend on Destroying EventsManager, but in case in the future that changes I put events unsubscribing to prevent memory leaks. Hope future me will appreciate
-        DayManager.Instance.OnSecondPassed -= CheckForShopEvents;
     }
 }
 

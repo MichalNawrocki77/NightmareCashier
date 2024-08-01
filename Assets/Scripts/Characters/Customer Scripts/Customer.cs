@@ -13,7 +13,7 @@ public class Customer : MonoBehaviour, IDialogueable
 {
     Animator animator;
 
-    [HideInInspector] public List<Product> products;
+    [HideInInspector] public Dictionary<Product, int> products;
 
     [Tooltip("This sprite will be used in dialgue's instead of the in game one")]
 
@@ -93,12 +93,13 @@ public class Customer : MonoBehaviour, IDialogueable
 
     void InitializeItems()
     {
-        products = new List<Product>();
+        products = new Dictionary<Product, int>();
         for(int i=0; i<Random.Range(3,7); i++)
         {
-            products.Add(DayManager.Instance.productList[
-                Random.Range(0,DayManager.Instance.products.Count)]
-                );
+            Product product = DayManager.Instance.productList[
+                Random.Range(0, DayManager.Instance.products.Count)
+                ];
+            AddProductToProductsDictionary(product);
         }
     }
     public bool IsDestinationReached()
@@ -111,6 +112,18 @@ public class Customer : MonoBehaviour, IDialogueable
             }
         }
         return false;
+    }
+
+    void AddProductToProductsDictionary(Product product)
+    {
+        if(products.ContainsKey(product))
+        {
+            products[product] += 1;
+        }
+        else
+        {
+            products.Add(product, 1);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

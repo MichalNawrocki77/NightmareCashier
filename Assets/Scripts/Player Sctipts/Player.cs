@@ -7,6 +7,7 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class Player : MonoBehaviour
 {
+
     public PlayerControls Input { get; private set; }
 
     public delegate void InteractionButtonCallback();
@@ -26,6 +27,19 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    #region Shelves
+
+    //technically I could use a stateMachine for keeping track of which box I have, but that seems like an overkill
+    [HideInInspector] public ProductSO currentlyHeldBox;
+
+    SpriteRenderer spriteRenderer;
+    [SerializeField] Sprite defaultSprite;
+
+    [Tooltip("index of this array = (int)productSO.type. Make sure the order is correct")]
+    [SerializeField] Sprite[] spritesWithBoxes;
+
+    #endregion
+
     private void Awake()
     {
         Input = new PlayerControls();
@@ -36,6 +50,9 @@ public class Player : MonoBehaviour
 
         //Disabling at the start of the game, so that I can't "interact" with nothing from the get go
         Input.PlayerActionMap.InteractionAction.Disable();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        currentlyHeldBox = null;
     }
 
     private void InteractionAction_performed(CallbackContext obj)
@@ -49,37 +66,12 @@ public class Player : MonoBehaviour
         Debug.Log("InteractionPressed is NULL!!!");
 
     }
-    public void DisableMovement()
-    {
-        Input.PlayerActionMap.MovementAction.Disable();
-        movementVector = Vector2.zero;
-    }
-    public void EnableMovement()
-    {
-        Input.PlayerActionMap.MovementAction.Enable();
-    }
-
-    public void AssignInteractionAction(InteractionButtonCallback callback)
-    {
-        Input.PlayerActionMap.InteractionAction.Enable();
-        onInteractionButtonPressed = callback;
-    }
-    public void DisableIntarctionAction()
-    {
-        onInteractionButtonPressed = null;
-        Input.PlayerActionMap.InteractionAction.Disable();
-    }
+    
 
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     private void FixedUpdate()
     {
@@ -105,5 +97,36 @@ public class Player : MonoBehaviour
             Input.PlayerActionMap.InteractionAction.Disable();
             CurrentCheckout = null;
         }        
+    }
+    public void DisableMovement()
+    {
+        Input.PlayerActionMap.MovementAction.Disable();
+        movementVector = Vector2.zero;
+    }
+    public void EnableMovement()
+    {
+        Input.PlayerActionMap.MovementAction.Enable();
+    }
+
+    public void AssignInteractionAction(InteractionButtonCallback callback)
+    {
+        Input.PlayerActionMap.InteractionAction.Enable();
+        onInteractionButtonPressed = callback;
+    }
+    public void DisableIntarctionAction()
+    {
+        onInteractionButtonPressed = null;
+        Input.PlayerActionMap.InteractionAction.Disable();
+    }
+
+    public void PickUpBox(ProductSO pickedUpProductBox)
+    {
+        currentlyHeldBox = pickedUpProductBox;
+        spriteRenderer.sprite = spritesWithBoxes[(int)pickedUpProductBox.type];
+    }
+    public void PutDownbox()
+    {
+        currentlyHeldBox = null;
+        spriteRenderer.sprite = defaultSprite;
     }
 }
