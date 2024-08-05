@@ -21,7 +21,7 @@ public class CollectingProductsState : CustomerState
 
     public override void Enter()
     {
-        InitializeShelves();
+        InitializeShelvesQueue();
         GetNewProductShelfAndSetDestination();
     }
     public override void Exit()
@@ -39,13 +39,12 @@ public class CollectingProductsState : CustomerState
     }
     public override void PhysicsUpdate()
     {
-        throw new System.NotImplementedException();
     }
 
-    void InitializeShelves()
+    void InitializeShelvesQueue()
     {
         productShelvesQueue = new Queue<KeyValuePair<Product,ProductShelf>>();
-        foreach (Product item in customer.products.Keys)
+        foreach (Product item in customer.productsWanted.Keys)
         {
             //if (productShelvesQueue.Contains(
             //    DayManager.Instance.productShelves[(int)item.type]))
@@ -53,14 +52,11 @@ public class CollectingProductsState : CustomerState
             //    continue;
             //}
             productShelvesQueue.Enqueue(new KeyValuePair<Product, ProductShelf>(
-                item, DayManager.Instance.productShelves[(int)item.type])
+                item,
+                DayManager.Instance.productShelves[(int)item.type] as InteractableProductShelf)
                 );
                 
         }
-    }
-    void SetNextDestination()
-    {
-        customer.agent.SetDestination(currentDestination.Value.transform.position);
     }
     void GetNewProductShelfAndSetDestination()
     {
@@ -68,23 +64,79 @@ public class CollectingProductsState : CustomerState
         {
             KeyValuePair<Product, ProductShelf> temp = productShelvesQueue.Dequeue();
             currentDestination = temp;
-            SetNextDestination();
+            customer.agent.SetDestination(currentDestination.Value.transform.position);
         }
         catch (InvalidOperationException)
         {
-            customer.sm.ChangeState(customer.goingToQueueState);
+            EvaluateCollectedProducts();
         }
         
+    }
+
+    private void EvaluateCollectedProducts()
+    {
+        //If the productsFound has zero keys, meaning no products were found
+        if(customer.productsFound.Count == 0)
+        {
+            HandleNoProductsFound();
+            return;
+        }
+        if (!customer.CheckIfAllProdcutsWereFound())
+        {
+            HandleSomeProductsFound();
+            return;
+        }
+        HandleAllProductsFound();
+    }
+
+    private void HandleAllProductsFound()
+    {
+        customer.sm.ChangeState(customer.goingToQueueState);
+    }
+
+    private void HandleSomeProductsFound()
+    {
+        customer.sm.ChangeState(customer.goingToQueueState);
+    }
+
+    private void HandleNoProductsFound()
+    {
+        customer.StopCoroutine(currentNavigationCoroutine);
+        currentNavigationCoroutine = null;
+        customer.sm.ChangeState(customer.goingHomeState);
+    }
+
+    /// <summary>
+    /// Indicates that the customer did not recieve the desired amount of product
+    /// </summary>
+    /// <param name="productRecieved">The amount of product recieved in case you want to use it</param>
+    void IndicateIncorrectProductAmount(int productRecieved)
+    {
+        Debug.LogError("IndicateIncorrectProductAmount() has not been implemented yet");
     }
     IEnumerator CustomerReachedShelfCoroutine()
     {
         yield return new WaitForSeconds(Random.Range(
-            DayManager.Instance.minCustomerShelfWait, DayManager.Instance.maxCustomerShelfWait));
+            DayManager.Instance.minCustomerShelfWait,
+            DayManager.Instance.maxCustomerShelfWait));
 
-        currentDestination.Value.GetProductFromShelf(currentDestination.Key.type);
+        int productRecieved = currentDestination.Value.GetProductFromShelf(currentDestination.Key.type,
+            customer.productsWanted[currentDestination.Key]);
 
+        //check if the customer has gotten the right amount to indicate errors/give strikes
+        if (productRecieved != customer.productsWanted[currentDestination.Key])
+        {
+            DayManager.Instance.AddStrike();
+            IndicateIncorrectProductAmount(productRecieved);
+        }
+
+        for(int i = 0; i < productRecieved; i++)
+        {
+            customer.AddProductToDictionary(
+                currentDestination.Key,
+                ref customer.productsFound);
+        }
         GetNewProductShelfAndSetDestination();
-
         currentNavigationCoroutine = null;
     }
 }

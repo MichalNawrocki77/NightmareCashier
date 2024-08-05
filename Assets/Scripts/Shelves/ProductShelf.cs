@@ -7,13 +7,14 @@ using UnityEngine;
 
 public class ProductShelf : MonoBehaviour
 {
-    [SerializeField] ProductSO product;
+    [SerializeField] protected ProductSO product;
 
-    public void GetProductFromShelf(ProductType requestedProduct)
+    public virtual int GetProductFromShelf(ProductType requestedProduct, int amount)
     {
         if (product.type != requestedProduct)
         {
-            Debug.LogError($"Somehow the customer went to an incorrect product shelf. Wanted {requestedProduct} and have gotten {product.type}");
+            Debug.LogError($"Somehow the customer went to an incorrect product shelf. Wanted {requestedProduct} and have gotten {product.type}. Exection did not stop");
         }
+        return amount;
     }
 }

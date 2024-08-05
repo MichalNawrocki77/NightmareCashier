@@ -89,6 +89,7 @@ public class DayManager : Singleton<DayManager>
         UIManager.Instance.UpdateClockUI(DayTimeLeft);
 
         Debug.Log("Why the fuck do you use two lists??? every object in productList has a reference to it's GameObject");
+
         productList = new List<Product>();
         foreach(GameObject productObj in products)
         {
@@ -171,13 +172,19 @@ public class DayManager : Singleton<DayManager>
     IEnumerator CustomerSpawningCoroutine()
     {
         int id = 0;
-        while (spawnCustomers)
+        while(true)
         {
+            yield return new WaitForSeconds(Random.Range(minCustomerSpawnInterval, maxCustomerSpawnInterval));
+
+            if (spawnCustomers == false)
+            {
+                continue;
+            }
+
             GameObject temp = Instantiate(customerPrefabs[0], customerSpawnPoint);
             temp.transform.localPosition = Vector3.zero;
             temp.name = "Customer"+id;
-            id++;
-            yield return new WaitForSeconds(Random.Range(minCustomerSpawnInterval, maxCustomerSpawnInterval));
+            id++;            
         }
     }
 

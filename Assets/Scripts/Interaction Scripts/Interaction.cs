@@ -97,9 +97,9 @@ public class Interaction : MonoBehaviour
     #endregion
     public IEnumerator CustomerInteractingCoroutine()
     {
-        foreach (Product product in customer.products.Keys)
+        foreach (Product product in customer.productsFound.Keys)
         {
-            for (int i = 0; i < customer.products[product]; i++)
+            for (int i = 0; i < customer.productsFound[product]; i++)
             {
                 //so far the wait in between product adding is 2s, define it in DayManager in the future
                 Debug.LogWarning("Hardcoded value (wait in between adding products), DEFINE IT SOMEWHERE!!!");
@@ -110,14 +110,16 @@ public class Interaction : MonoBehaviour
                     <
                     DayManager.Instance.chancesOfInteractionFailuresOccuring[0])
                 {
-                    failureType = InteractionFailureType.IncorrectQuantity;
+                    failureType = InteractionFailureType.IncorrectWeight;
+                    Debug.Log(failureType);
                 }
                 else if (
                     Random.Range(1, 101)
                     <
                     DayManager.Instance.chancesOfInteractionFailuresOccuring[1])
                 {
-                    failureType = InteractionFailureType.IncorrectWeight;
+                    failureType = InteractionFailureType.IncorrectQuantity;
+                    Debug.Log(failureType);
                 }
                 else
                 {

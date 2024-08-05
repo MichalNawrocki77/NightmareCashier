@@ -84,8 +84,7 @@ public class ShopEventsManager : Singleton<ShopEventsManager>
         //subtract rougly 25% from maxTime (I say roughly because dividing 2 ints will always give you an int, thus this operation has some error to it)
         //The error is actually what I want, I don't want floats in here
         minTimeBetweenShopEvents = maxTimeBetweenShopEvents - (maxTimeBetweenShopEvents / 4);
-        Debug.Log("minTimeBetweenEvents: " + minTimeBetweenShopEvents);
-        Debug.Log("maxTimeBetweenEvents: " + maxTimeBetweenShopEvents);
+        
     }
 
     void CheckForShopEvents()

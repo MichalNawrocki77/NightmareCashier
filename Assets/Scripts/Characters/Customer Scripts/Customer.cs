@@ -13,7 +13,9 @@ public class Customer : MonoBehaviour, IDialogueable
 {
     Animator animator;
 
-    [HideInInspector] public Dictionary<Product, int> products;
+    public Dictionary<Product, int> productsWanted;
+
+    public Dictionary<Product, int> productsFound;
 
     [Tooltip("This sprite will be used in dialgue's instead of the in game one")]
 
@@ -79,10 +81,18 @@ public class Customer : MonoBehaviour, IDialogueable
         agent.updateUpAxis = false;
 
         animator = GetComponent<Animator>();
+        productsFound = new Dictionary<Product, int>();
 
         InitializeItems();
         //Usually you call this method in awake, but since the 1st state's enter()'s InitializeShelves() Relies on the products List not being null, I need to call InitializeShelves() AFTER calling InitializeItems()
         sm.Initialize(collectingProductsState);
+
+        string stringToDebug = $"{gameObject.name} wanted products:\n";
+        foreach(KeyValuePair<Product, int> kvp in productsWanted)
+        {
+            stringToDebug += $"{kvp.Key} -> {kvp.Value}\n";
+        }
+        Debug.Log(stringToDebug);
     }
 
     // Update is called once per frame
@@ -90,20 +100,29 @@ public class Customer : MonoBehaviour, IDialogueable
     {
         sm.currentState.LogicUpdate();
     }
+    private void LateUpdate()
+    {
+        sm.currentState.LateLogicUpdate();
+    }
 
     void InitializeItems()
     {
-        products = new Dictionary<Product, int>();
+        productsWanted = new Dictionary<Product, int>();
         for(int i=0; i<Random.Range(3,7); i++)
         {
             Product product = DayManager.Instance.productList[
                 Random.Range(0, DayManager.Instance.products.Count)
                 ];
-            AddProductToProductsDictionary(product);
+            AddProductToDictionary(product,ref productsWanted);
         }
     }
     public bool IsDestinationReached()
     {
+        if(agent.pathPending)
+        {
+            return false;
+        }
+
         if(agent.remainingDistance < agent.stoppingDistance)
         {
             if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
@@ -114,15 +133,15 @@ public class Customer : MonoBehaviour, IDialogueable
         return false;
     }
 
-    void AddProductToProductsDictionary(Product product)
+    public void AddProductToDictionary(Product product, ref Dictionary<Product, int> dictionary)
     {
-        if(products.ContainsKey(product))
+        if(dictionary.ContainsKey(product))
         {
-            products[product] += 1;
+            dictionary[product] += 1;
         }
         else
         {
-            products.Add(product, 1);
+            dictionary.Add(product, 1);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -144,6 +163,30 @@ public class Customer : MonoBehaviour, IDialogueable
         checkout.StartInteraction();
         agent.SetDestination(checkout.navMeshDestination.position);
         sm.ChangeState(goingToCheckoutState);
+    }
+    public bool CheckIfAllProdcutsWereFound()
+    {
+        string stringToDebug = $"{gameObject.name} found products:\n";
+        foreach (KeyValuePair<Product, int> kvp in productsFound)
+        {
+            stringToDebug += $"{kvp.Key} -> {kvp.Value}\n";
+        }
+        Debug.Log(stringToDebug);
+
+        foreach (KeyValuePair<Product,int> kvp in productsWanted)
+        {
+            //If does not contain the key that means, that the shelf had no product on it, thus the key was never created.
+            if(!productsFound.ContainsKey(kvp.Key))
+            {
+                return false;
+            }
+            //but if it does exist, let's see if we have the correct amount
+            if(kvp.Value != productsFound[kvp.Key])
+            {
+                return false;
+            }
+        }
+        return true;
     }
     #region animations
     public void SetShowingFailureIndicator(bool isShowing)

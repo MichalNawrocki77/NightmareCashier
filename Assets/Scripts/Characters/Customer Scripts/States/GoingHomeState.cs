@@ -19,15 +19,16 @@ public class GoingHomeState : CustomerState
 
     public override void LateLogicUpdate()
     {
-        throw new System.NotImplementedException();
+        if (customer.IsDestinationReached())
+        {
+            Debug.Log($"{customer.gameObject.name} destroying from going home state");
+            customer.DestroySelf();
+        }
     }
 
     public override void LogicUpdate()
     {
-        if (customer.IsDestinationReached())
-        {
-            customer.DestroySelf();
-        }
+        
     }
 
     public override void PhysicsUpdate()
