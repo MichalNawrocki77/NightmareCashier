@@ -9,6 +9,7 @@ TagManager:
   - ShelfDestination
   - QueueManager
   - audioSource
+  - ProductShelf
   layers:
   - Default
   - TransparentFX

@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         Input.PlayerActionMap.InteractionAction.Enable();
         onInteractionButtonPressed = callback;
     }
-    public void DisableIntarctionAction()
+    public void UnassignIntarctionAction()
     {
         onInteractionButtonPressed = null;
         Input.PlayerActionMap.InteractionAction.Disable();

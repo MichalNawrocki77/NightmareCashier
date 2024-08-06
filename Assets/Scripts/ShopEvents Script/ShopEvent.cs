@@ -8,10 +8,13 @@ using UnityEngine.InputSystem;
 
 public class ShopEvent : MonoBehaviour
 {
-    [SerializeField] Player player;
+    Player player;
     SpriteRenderer spriteRenderer;
     private void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if (player is null) Debug.LogError($"{gameObject.name} did not find Player");
+
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,7 +29,7 @@ public class ShopEvent : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            player.DisableIntarctionAction();
+            player.UnassignIntarctionAction();
         }
     }
 
@@ -51,7 +54,7 @@ public class ShopEvent : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        player.DisableIntarctionAction();
+        player.UnassignIntarctionAction();
         player.EnableMovement();
 
         ShopEventsManager.Instance.EndShopEvent();

@@ -52,7 +52,7 @@ public class DialogueObject : MonoBehaviour, IDialogueable
     {
         if (collision.CompareTag("Player"))
         {
-            player.DisableIntarctionAction();
+            player.UnassignIntarctionAction();
         }
     }
 

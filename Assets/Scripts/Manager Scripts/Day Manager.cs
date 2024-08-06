@@ -27,7 +27,7 @@ public class DayManager : Singleton<DayManager>
     #region Customers AI
 
     [Tooltip("Make sure that the index of product's shelf matches the enum to int cast value of product's type (the way I take the transform value is by casting product's enum type to int as an index of this List)")]
-    public List<ProductShelf> productShelves;
+    public List<ProductAisle> productAisles;
 
     [Tooltip("Minimum time in seconds for customers to go to next product shelf")]
     public int minCustomerShelfWait;

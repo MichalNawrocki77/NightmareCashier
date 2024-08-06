@@ -9,7 +9,7 @@ public class InteractableProductShelf : ProductShelf
 {
     [Tooltip("Do not change this value since a setter is attached to it. This serialization is for reading/debugging purposes only")]
     [SerializeField] int currentProduct;
-    //CurrentProduct is not public, because I only want the behaviour of a setter
+    //CurrentProduct property is not public, because I only want the behaviour of a setter
     int CurrentProduct
     {
         get
@@ -23,17 +23,22 @@ public class InteractableProductShelf : ProductShelf
         }
     }
 
-    
-
     [SerializeField] int maxProduct;
 
     [Tooltip("The higher the index, the more product this shelf is supposed to have (index 0 -> 0%, index 1 -> 0%-33% and so on)")]
     [SerializeField] Sprite[] sprites;
     SpriteRenderer spriteRenderer;
-    private void Start()
+
+    Player player;
+
+    protected override void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        base.Start();
+
         CurrentProduct = maxProduct;
+
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if (player is null) Debug.LogError($"{gameObject.name} did not find player");
     }
 
     /// <summary>
@@ -81,4 +86,38 @@ public class InteractableProductShelf : ProductShelf
         }
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+
+        if (collision.CompareTag("Player"))
+        {
+            player.AssignInteractionAction(RefillShelf);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            player.UnassignIntarctionAction();
+        }
+    }
+
+    void RefillShelf()
+    {
+        if (player.currentlyHeldBox is null) return;
+
+        if (player.currentlyHeldBox != this.product)
+        {
+            ShowWrongProductIndicator();
+            return;
+        }
+
+        this.CurrentProduct = this.maxProduct;
+    }
+
+    private void ShowWrongProductIndicator()
+    {
+        Debug.LogWarning("ShowWrongProductIndicator() has not been implemented");
+    }
 }

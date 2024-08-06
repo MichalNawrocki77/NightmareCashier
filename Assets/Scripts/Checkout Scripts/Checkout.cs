@@ -79,7 +79,7 @@ public class Checkout : MonoBehaviour
     {
         Destroy(interactionCurrent.gameObject);
         interactionCurrent = null;
-        playerScript.DisableIntarctionAction();
+        playerScript.UnassignIntarctionAction();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -93,7 +93,7 @@ public class Checkout : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerScript.DisableIntarctionAction();
+            playerScript.UnassignIntarctionAction();
             isPlayerInCollider = false;
         }
     }

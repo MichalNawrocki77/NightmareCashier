@@ -6,7 +6,13 @@ using UnityEngine;
 public class WarehouseShelf : MonoBehaviour
 {
     [SerializeField] ProductSO product;
-    [SerializeField] Player player;
+    Player player;
+
+    private void Start()
+    {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        if (player is null) Debug.LogError($"{gameObject.name} did not find Player");
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -27,7 +33,7 @@ public class WarehouseShelf : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        player.DisableIntarctionAction();
+        player.UnassignIntarctionAction();
     }
     void GetBoxWithProducts()
     {
@@ -50,6 +56,6 @@ public class WarehouseShelf : MonoBehaviour
 
     private void ShowWrongProductIndicator()
     {
-        Debug.Log("You try to put down the wrong product.");
+        Debug.LogWarning("You try to put down the wrong product.");
     }
 }

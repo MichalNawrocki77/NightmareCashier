@@ -22,7 +22,7 @@ public class GoingToCheckoutState : CustomerState
 
     public override void LateLogicUpdate()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void LogicUpdate()

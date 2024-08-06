@@ -10,11 +10,10 @@ using Random = UnityEngine.Random;
 
 public class CollectingProductsState : CustomerState
 {
-
     public Coroutine currentNavigationCoroutine;
     KeyValuePair<Product, ProductShelf> currentDestination;
 
-    Queue< KeyValuePair<Product,ProductShelf> > productShelvesQueue;
+    Queue< KeyValuePair<Product,ProductAisle> > productAislesQueue;
     public CollectingProductsState(Customer customer, StateMachine stateMachine) : base(customer, stateMachine)
     {
     }
@@ -43,7 +42,7 @@ public class CollectingProductsState : CustomerState
 
     void InitializeShelvesQueue()
     {
-        productShelvesQueue = new Queue<KeyValuePair<Product,ProductShelf>>();
+        productAislesQueue = new Queue<KeyValuePair<Product,ProductAisle>>();
         foreach (Product item in customer.productsWanted.Keys)
         {
             //if (productShelvesQueue.Contains(
@@ -51,9 +50,9 @@ public class CollectingProductsState : CustomerState
             //{
             //    continue;
             //}
-            productShelvesQueue.Enqueue(new KeyValuePair<Product, ProductShelf>(
+            productAislesQueue.Enqueue(new KeyValuePair<Product, ProductAisle>(
                 item,
-                DayManager.Instance.productShelves[(int)item.type] as InteractableProductShelf)
+                DayManager.Instance.productAisles[(int)item.type])
                 );
                 
         }
@@ -62,9 +61,11 @@ public class CollectingProductsState : CustomerState
     {
         try
         {
-            KeyValuePair<Product, ProductShelf> temp = productShelvesQueue.Dequeue();
-            currentDestination = temp;
-            customer.agent.SetDestination(currentDestination.Value.transform.position);
+            KeyValuePair<Product, ProductAisle> temp = productAislesQueue.Dequeue();
+            currentDestination = new KeyValuePair<Product, ProductShelf>(
+                temp.Key,
+                temp.Value.RequestShelf());
+            customer.agent.SetDestination(currentDestination.Value.CollectProductPosition);
         }
         catch (InvalidOperationException)
         {
